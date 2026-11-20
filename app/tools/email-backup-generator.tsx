@@ -88,6 +88,15 @@ export default function MikrotikEmailBackupGenerator(){
   </div>
   {error&&<div className="nt-alert">{error}</div>}
   {generated&&!error&&<><div className="nt-alert">Script siap dibuat. Jalankan di terminal MikroTik setelah backup konfigurasi lama. Uji pengiriman manual terlebih dahulu dan pastikan file benar-benar diterima.</div><pre className="nt-code"><code>{script}</code></pre></>}
-  <p className="nt-disclaimer">Catatan: Gmail umumnya memerlukan 2-Step Verification dan App Password; akun Google Workspace dapat memiliki kebijakan berbeda. Periksa dokumentasi SMTP penyedia email. File .backup bersifat spesifik perangkat/RouterOS; file .rsc adalah ekspor konfigurasi. Verifikasi syntax pada perangkat uji sebelum produksi.</p>
+  <div className="nt-disclaimer nf-gmail-note">
+   <h3>BUAT SERVER GMAIL ANDA SENDIRI:</h3>
+   <div className="nf-gmail-note-rule">-----------------------------------------</div>
+   <ol>
+    <li>Pertama masuk ke sini <a href="https://myaccount.google.com/security" target="_blank" rel="noreferrer">https://myaccount.google.com/security</a> lalu ikuti petunjuk untuk mengaktifkan verifikasi 2 langkah, maka kode akan dikirimkan ke nomor ponsel Anda.</li>
+    <li>Kemudian buat password aplikasi di sini <a href="https://myaccount.google.com/apppasswords" target="_blank" rel="noreferrer">https://myaccount.google.com/apppasswords</a>. Nanti password ini akan digunakan untuk input mail server MikroTik.</li>
+   </ol>
+   <p>Catatan: App Password hanya tersedia untuk akun Google yang memenuhi persyaratan Google. Jangan gunakan password utama akun Gmail. Masukkan App Password pada kolom SMTP Password di atas.</p>
+   <p>File .backup bersifat spesifik perangkat/RouterOS; file .rsc adalah ekspor konfigurasi. Verifikasi syntax dan uji pengiriman pada perangkat uji sebelum produksi.</p>
+  </div>
  </>;
 }
