@@ -213,7 +213,7 @@ export default function Home() {
           </div>
         </section>}
 
-        <footer className="pon-footer"><span>© Copyright 2020-2026 - All Rights Reserved.</span><span>Project By <strong>Irfann JT</strong> @ <strong>NETFORGE Tools</strong> · Jakarta Capital Region &amp; Bogor, INDONESIA</span></footer>
+        <footer className="pon-footer"><span>© Copyright 2020-2026 - All Rights Reserved.</span><span>Project By <strong>Irfann JT</strong> @ <strong>NETFORGE Tools</strong> · Jakarta Capital Region &amp; Bogor, INDONESIA</span><a className="nf-hit-counter" href="https://hits.sh/mikrotikscript.github.io/PON/" target="_blank" rel="noreferrer" aria-label="NETFORGE site visit counter"><img src="https://hits.sh/mikrotikscript.github.io/PON.svg?style=flat-square&label=visits" alt="NETFORGE visits" loading="lazy"/></a></footer>
 
         <section className="pon-print-report">
           <header className="pon-print-header">
