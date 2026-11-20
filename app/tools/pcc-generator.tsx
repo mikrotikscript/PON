@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { Clipboard, Download, Router } from 'lucide-react';
+import { recordToolUse } from './usage-counter';
 
 type Wan = { id: number; iface: string; gateway: string; weight: string };
 const seed: Wan[] = Array.from({ length: 8 }, (_, index) => ({
@@ -126,7 +127,7 @@ export default function PccGenerator() {
     {mode === 'weighted' && <div className="nt-alert">Atur bobot tiap WAN. Contoh 2:1:1 membagi koneksi baru dengan rasio perkiraan 50%:25%:25%.</div>}
     {error && <div className="nt-alert">{error}</div>}
     <div className="nt-script-actions">
-      <button onClick={() => setGenerated(true)} disabled={!!error}>Generate Script</button>
+      <button onClick={() => { setGenerated(true); recordToolUse(); }} disabled={!!error}>Generate Script</button>
       <button className="nt-button-light" onClick={copy} disabled={!generated || !!error}><Clipboard size={15}/>{copied ? 'Tersalin' : 'Salin Script'}</button>
       <button className="nt-button-light" onClick={download} disabled={!generated || !!error}><Download size={15}/> Unduh .rsc</button>
     </div>
