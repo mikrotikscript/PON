@@ -27,7 +27,8 @@ export default function PccGenerator() {
   const [lan, setLan] = useState('bridge');
   const [local, setLocal] = useState('192.168.88.0/24');
   const [wans, setWans] = useState<Wan[]>(seed);
-  const [copied, setCopied] = useState(false);\n  const [generated, setGenerated] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [generated, setGenerated] = useState(false);
   const selected = wans.slice(0, Number(count));
 
   const error = useMemo(() => {
