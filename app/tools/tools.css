@@ -255,3 +255,8 @@
 .nf-main-nav a:hover{color:#f97316}
 .nf-pon-nav a{color:#cbd5e1}
 @media(max-width:760px){.nf-main-nav{order:3;width:100%;justify-content:center;margin:10px 0 0;gap:20px}.nt-header{flex-wrap:wrap}}
+
+.nf-info-card footer{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.nf-footer-copy{min-width:0;flex:1}
+.nf-hit-counter{display:inline-flex;align-items:center;flex-shrink:0;text-decoration:none}
+.nf-hit-counter img{display:block;height:20px;max-width:130px}
