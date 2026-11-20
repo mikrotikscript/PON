@@ -212,7 +212,7 @@ export default function Home() {
           </div>
         </section>}
 
-        <footer className="pon-footer"><span>© Copyright IRFANNJT - 087842457503</span></footer>
+        <footer className="pon-footer"><span>© Copyright 2020-2026 - All Rights Reserved.</span><span>Project By <strong>Irfann JT</strong> @ <strong>NETFORGE Tools</strong> · Jakarta Capital Region &amp; Bogor, INDONESIA</span></footer>
 
         <section className="pon-print-report">
           <header className="pon-print-header">
@@ -256,7 +256,7 @@ export default function Home() {
             </table>
           </>}
           <div className="pon-print-disclaimer">Catatan: Hasil merupakan estimasi berdasarkan parameter yang dimasukkan. Verifikasi nilai aktual menggunakan Optical Power Meter (OPM), datasheet perangkat, dan pengukuran lapangan. Untuk FBT, total redaman utama mengikuti jalur Pass; daya Drop dicantumkan terpisah.</div>
-          <footer className="pon-print-footer">© Copyright IRFANNJT - 087842457503</footer>
+          <footer className="pon-print-footer">© Copyright 2020-2026 - All Rights Reserved.<br/>Project By Irfann JT @ NETFORGE Tools · Jakarta Capital Region &amp; Bogor, INDONESIA</footer>
         </section>
       </div>
     </main>
