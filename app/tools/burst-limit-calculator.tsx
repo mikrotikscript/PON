@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { Clipboard, Download, Gauge } from 'lucide-react';
+import { recordToolUse } from './usage-counter';
 
 const numberOK = (v: string) => Number.isFinite(Number(v)) && Number(v) > 0;
 const fmtRate = (mbps: number) => mbps >= 1 ? (Number.isInteger(mbps) ? mbps.toFixed(0) : mbps.toFixed(2).replace(/0+$/, '').replace(/\.$/, '')) + 'M' : Math.round(mbps * 1000) + 'k';
@@ -84,7 +85,7 @@ add name="${name.trim()}" target=${target.trim()} max-limit=${result.maxUp}/${re
       <div className="nt-alert">Rumus mengikuti parameter kalkulator referensi: Threshold = 75% Max Limit, Limit At = 12,5% Max Limit, dan Burst Time dihitung agar Bonus Duration tercapai. Pastikan kebutuhan queue dan satuan RouterOS sesuai.</div>
     </> : <div className="nt-alert">{error || 'Masukkan parameter bandwidth yang valid.'}</div>}
     <div className="nt-script-actions">
-      <button onClick={() => setGenerated(true)} disabled={!!error}>Generate Script</button>
+      <button onClick={() => { setGenerated(true); recordToolUse(); }} disabled={!!error}>Generate Script</button>
       <button className="nt-button-light" onClick={() => copy(script)} disabled={!generated || !!error}><Clipboard size={15}/>{copied ? 'Tersalin' : 'Salin Script'}</button>
       <button className="nt-button-light" onClick={download} disabled={!generated || !!error}><Download size={15}/> Unduh .rsc</button>
     </div>
