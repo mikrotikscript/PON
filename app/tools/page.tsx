@@ -315,7 +315,7 @@ add address=${lanNet} gateway=${dhcpGateway} dns-server=${dhcpDns}`;
             <div className="nt-note"><Shield size={17}/> Semua generator berjalan lokal di browser. Script yang dihasilkan harus diperiksa dan diuji di lab / Safe Mode sebelum diterapkan ke router produksi.</div>
           </>
         )}
-        <footer className="nt-footer"><div>© Copyright 2020-2026 - All Rights Reserved.<br/><span>Project By <strong>Irfann JT</strong> @ <strong>NETFORGE Tools</strong> · Jakarta Capital Region &amp; Bogor, INDONESIA</span></div><span>BUILD SMARTER NETWORKS.</span></footer>
+        <footer className="nt-footer"><div>© Copyright 2020-2026 - All Rights Reserved.<br/><span>Project By <strong>Irfann JT</strong> @ <strong>NETFORGE Tools</strong> · Jakarta Capital Region &amp; Bogor, INDONESIA</span></div><span>BUILD SMARTER NETWORKS.</span><a className="nf-hit-counter" href="https://hits.sh/mikrotikscript.github.io/PON/" target="_blank" rel="noreferrer" aria-label="NETFORGE site visit counter"><img src="https://hits.sh/mikrotikscript.github.io/PON.svg?style=flat-square&label=visits" alt="NETFORGE visits" loading="lazy"/></a></footer>
       </div>
     </main>
   );
