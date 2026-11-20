@@ -249,3 +249,9 @@
 .nf-info-card .nf-update-item p,.nf-info-card .nf-doc-item p{color:#cbd5e1}
 .nf-doc-note{background:#252525;border:1px solid #555;padding:14px;border-radius:6px;color:#cbd5e1;font-size:12px;line-height:1.6}
 @media(max-width:600px){.nf-info-page{padding:14px 10px 40px}.nf-info-header{align-items:flex-start;flex-direction:column;padding:16px}.nf-info-header nav{gap:15px}.nf-info-card{padding:22px 16px}}
+
+.nf-main-nav{display:flex;align-items:center;gap:16px;margin-left:auto;margin-right:14px;flex-wrap:wrap}
+.nf-main-nav a{font-size:11px;font-weight:800;letter-spacing:.5px;color:var(--nt-text,#cbd5e1);text-decoration:none}
+.nf-main-nav a:hover{color:#f97316}
+.nf-pon-nav a{color:#cbd5e1}
+@media(max-width:760px){.nf-main-nav{order:3;width:100%;justify-content:center;margin:10px 0 0;gap:20px}.nt-header{flex-wrap:wrap}}
