@@ -44,10 +44,10 @@ export default function BurstLimitCalculator() {
       maxUp: fmt(up), maxDown: fmt(down), burstUp: fmt(bUp), burstDown: fmt(bDown),
       thresholdUp: fmt(thresholdUp), thresholdDown: fmt(thresholdDown),
       limitUp: fmt(limitUp), limitDown: fmt(limitDown),
-      timeUp: fmtDuration(tUp), timeDown: fmtDuration(tDown),
+      timeUp: fmtDuration(burstTimeUp), timeDown: fmtDuration(burstTimeDown),
       durationUp: fmtDuration(durationUp), durationDown: fmtDuration(durationDown),
     };
-  }, [upload, downloadMbps, burstUp, burstDown, timeUp, timeDown]);
+  }, [upload, downloadMbps, burstUp, burstDown, durationUp, durationDown]);
 
   const error = !safeToken(name)
     ? 'Nama queue tidak valid. Gunakan huruf, angka, titik, _ : atau -.'
