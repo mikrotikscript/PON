@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { Activity, ArrowRight, Cable, CheckCircle2, FileDown, Info, Moon, Network, RotateCcw, Sun, Waves, Zap, Trash2 } from 'lucide-react';
+import { recordToolUse } from './tools/usage-counter';
 
 type Tab = 'topology' | 'splitter' | 'standard';
 type Kind = 'fiber' | 'splice' | 'connector' | 'plc' | 'fbt' | 'ont';
@@ -130,7 +131,7 @@ export default function Home() {
           <div className="pon-panel-head">
             <div><span className="pon-step">DESAIN JARINGAN</span><h2>Topologi & Perhitungan Redaman</h2><p>Setiap komponen menerima daya dari keluaran komponen sebelumnya.</p></div>
             <div className="pon-head-actions">
-              <button className="pon-secondary" onClick={() => window.print()}><FileDown size={14}/> Export PDF</button>
+              <button className="pon-secondary" onClick={() => { recordToolUse(); window.print(); }}><FileDown size={14}/> Export PDF</button>
               <button className="pon-secondary" onClick={reset}><RotateCcw size={14}/> Reset</button>
             </div>
           </div>
