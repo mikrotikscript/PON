@@ -201,6 +201,7 @@ add address=${lanNet} gateway=${dhcpGateway} dns-server=${dhcpDns}`;
 
       <div className="nt-container">
         <section className="nt-hero">
+          <img className="nt-routeros-logo" src="/PON/mikrotik-routeros-logo.jpg" alt="MikroTik RouterOS" width="112" height="112" loading="eager"/>
           <div className="nt-kicker"><Zap size={14}/> BUILD SMARTER NETWORKS.</div>
           <h1>Engineering your network.<br/><span>One tool at a time.</span></h1>
           <p>Workspace teknis untuk kalkulasi, perencanaan, dan generator konfigurasi jaringan — praktis, presisi, langsung dari browser.</p>
