@@ -136,3 +136,10 @@ button{cursor:pointer}
 .pon-brand b span{color:#f97316}
 .pon-brand small{font-size:9px;letter-spacing:.13em}
 .pon-app.dark .pon-brand{color:#fff}
+
+/* NETFORGE global page-hit counter */
+.netforge-hit-counter{position:fixed;right:18px;bottom:18px;z-index:1000;display:flex;align-items:center;justify-content:center;padding:7px 10px;background:#111827;border:1px solid #f97316;border-radius:10px;box-shadow:0 5px 18px #0004;line-height:0;transition:transform .18s ease,box-shadow .18s ease}
+.netforge-hit-counter:hover{transform:translateY(-2px);box-shadow:0 8px 22px #0005}
+.netforge-hit-counter img{display:block;width:auto;height:22px;max-width:160px}
+@media(max-width:560px){.netforge-hit-counter{right:10px;bottom:10px;padding:6px 8px}.netforge-hit-counter img{height:19px}}
+@media print{.netforge-hit-counter{display:none!important}}
