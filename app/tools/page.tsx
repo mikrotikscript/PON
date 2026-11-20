@@ -7,13 +7,14 @@ import BandwidthMonitorGenerator from './bandwidth-monitor';
 import BurstLimitCalculator from './burst-limit-calculator';
 import PcqGenerator from './pcq-generator';
 import SiteBlockGenerator from './site-block-generator';
+import MikrotikEmailBackupGenerator from './email-backup-generator';
 import { recordToolUse } from './usage-counter';
 import {
   Activity, ArrowLeft, ArrowRight, Cable, Calculator, Check, Clipboard,
   Download, Gauge, Globe, Network, Router, Search, Shield, Wifi, Zap, Sun, Moon
 } from 'lucide-react';
 
-type ToolId = 'subnet' | 'bandwidth' | 'optical' | 'pcc' | 'nth' | 'monitor' | 'queue' | 'dhcp' | 'burst' | 'pcq' | 'siteblock';
+type ToolId = 'subnet' | 'bandwidth' | 'optical' | 'pcc' | 'nth' | 'monitor' | 'queue' | 'dhcp' | 'burst' | 'pcq' | 'siteblock' | 'emailbackup';
 type ToolCard = { id: ToolId; title: string; desc: string; category: string; tags: string[] };
 
 const tools: ToolCard[] = [
@@ -26,6 +27,7 @@ const tools: ToolCard[] = [
   { id: 'burst', title: 'MikroTik Burst Limit Calculator', desc: 'Hitung burst threshold, burst time, limit-at, dan buat script Simple Queue.', category: 'BANDWIDTH & QoS', tags: ['burst', 'burst limit', 'burst threshold', 'queue', 'qos'] },
   { id: 'pcq', title: 'MikroTik PCQ Generator', desc: 'Buat konfigurasi PCQ untuk Queue Tree dan Simple Queue.', category: 'BANDWIDTH & QoS', tags: ['pcq', 'queue tree', 'simple queue', 'mikrotik', 'qos', 'bandwidth'] },
   { id: 'siteblock', title: 'Block Website & App Generator', desc: 'Buat rule firewall untuk membatasi YouTube, TikTok, Facebook, WhatsApp, dan layanan lainnya.', category: 'SECURITY & BACKUP', tags: ['block', 'website', 'app', 'youtube', 'tiktok', 'facebook', 'whatsapp', 'firewall'] },
+  { id: 'emailbackup', title: 'MikroTik Auto Backup to Email', desc: 'Jadwalkan backup konfigurasi RouterOS dan kirim otomatis ke email.', category: 'SECURITY & BACKUP', tags: ['backup', 'email', 'smtp', 'gmail', 'scheduler', 'routeros', 'mikrotik'] },
   { id: 'queue', title: 'Simple Queue Generator', desc: 'Buat perintah Simple Queue untuk pelanggan atau segmen jaringan.', category: 'BANDWIDTH & QoS', tags: ['queue', 'simple queue', 'pcq', 'mikrotik'] },
   { id: 'dhcp', title: 'DHCP Pool Generator', desc: 'Buat konfigurasi IP pool dan DHCP network dasar untuk RouterOS.', category: 'IP & NETWORK', tags: ['dhcp', 'pool', 'mikrotik', 'routeros'] },
 ];
@@ -263,6 +265,7 @@ add address=${lanNet} gateway=${dhcpGateway} dns-server=${dhcpDns}`;
             {active === 'burst' && <BurstLimitCalculator/>}
             {active === 'pcq' && <PcqGenerator/>}
             {active === 'siteblock' && <SiteBlockGenerator/>}
+            {active === 'emailbackup' && <MikrotikEmailBackupGenerator/>}
 
             {active === 'queue' && <>
               <div className="nt-tool-title"><Activity/><div><span>BANDWIDTH & QoS</span><h2>Simple Queue Generator</h2><p>Susun satu perintah Simple Queue untuk target pelanggan.</p></div></div>
