@@ -201,3 +201,18 @@
 .nf-burst .nt-disclaimer{font-size:10px;margin-top:10px}
 @media(max-width:760px){.nf-burst{max-width:100%}.nf-burst-grid{grid-template-columns:1fr}}
 @media(max-width:480px){.nf-burst-columns{gap:8px}.nf-burst-duration{font-size:8px}.nf-burst-extra{grid-template-columns:1fr 1fr}.nf-burst-extra label:nth-child(2){grid-column:span 2}}
+
+/* NETFORGE multi-ISP bandwidth monitor cards */
+.nf-monitor-wans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+.nf-monitor-wan{min-width:0;padding:13px;border:1px solid #e0e5eb;border-radius:11px;background:#f8fafc;display:grid;gap:8px}
+.nf-monitor-wan-head{display:flex;justify-content:space-between;align-items:center;color:#334155;font-size:12px}
+.nf-monitor-wan-head button{display:grid;place-items:center;width:26px;height:26px;border:0;border-radius:7px;background:#fee2e2;color:#b91c1c;cursor:pointer}
+.nf-monitor-wan-head button:disabled{opacity:.3;cursor:not-allowed}
+.nf-monitor-wan label{display:grid;gap:4px;font-size:10px;color:#64748b;font-weight:700}
+.nf-monitor-wan input{width:100%;min-width:0;height:34px;border:1px solid #d6dce4;border-radius:7px;padding:6px 9px;background:#fff;color:#111827;font-size:12px}
+.nf-monitor-wan small{font-size:10px;color:#c05621;font-weight:700}
+.nt-dark .nf-monitor-wan{background:#101a2a;border-color:#344155}
+.nt-dark .nf-monitor-wan-head{color:#e5e7eb}
+.nt-dark .nf-monitor-wan label{color:#aab6c7}
+.nt-dark .nf-monitor-wan input{background:#0e1726;border-color:#3a475b;color:#f3f4f6}
+@media(max-width:560px){.nf-monitor-wans{grid-template-columns:1fr}}
