@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import PccGenerator from './pcc-generator';
 import {
   Activity, ArrowLeft, ArrowRight, Cable, Calculator, Check, Clipboard,
   Download, Gauge, Globe, Network, Router, Search, Shield, Wifi, Zap
@@ -242,21 +243,7 @@ add address=${lanNet} gateway=${dhcpGateway} dns-server=${dhcpDns}`;
               <p className="nt-disclaimer">Hasil adalah estimasi matematis. Ambang Rx harus disesuaikan dengan kelas optik dan datasheet perangkat. Verifikasi menggunakan OPM.</p>
             </>}
 
-            {active === 'pcc' && <>
-              <div className="nt-tool-title"><Router/><div><span>ROUTING & MIKROTIK</span><h2>MikroTik PCC Load Balancing</h2><p>Template awal dua WAN dengan pembagian koneksi seimbang. Periksa topologi sebelum digunakan.</p></div></div>
-              <div className="nt-form-grid two">
-                <label>Versi RouterOS<select value={rosVersion} onChange={e => setRosVersion(e.target.value)}><option value="7">RouterOS 7.x</option><option value="6">RouterOS 6.49.x</option></select></label>
-                <label>Interface LAN / Bridge<input value={lan} onChange={e => setLan(e.target.value)}/></label>
-                <label>Interface WAN 1<input value={wan1} onChange={e => setWan1(e.target.value)}/></label>
-                <label>Gateway WAN 1<input value={gw1} onChange={e => setGw1(e.target.value)}/></label>
-                <label>Interface WAN 2<input value={wan2} onChange={e => setWan2(e.target.value)}/></label>
-                <label>Gateway WAN 2<input value={gw2} onChange={e => setGw2(e.target.value)}/></label>
-                <label>LAN subnet (dokumentasi)<input value={lanNet} onChange={e => setLanNet(e.target.value)}/></label>
-              </div>
-              <div className="nt-alert">Penting: template ini masih berupa kerangka awal. Interface WAN ditampilkan untuk verifikasi, tetapi aturan NAT, pengecualian trafik lokal, router-originated traffic, recursive failover, dan penyesuaian routing-table perlu disesuaikan sebelum produksi.</div>
-              <div className="nt-script-actions"><button onClick={() => copyText(pccScript)}><Clipboard size={15}/>{copied ? 'Tersalin' : 'Salin Script'}</button><button className="nt-button-light" onClick={() => downloadText('poncalc-pcc-template.rsc',pccScript)}><Download size={15}/> Unduh .rsc</button></div>
-              <pre className="nt-code"><code>{pccScript}</code></pre>
-            </>}
+            {active === 'pcc' && <PccGenerator/>}
 
             {active === 'queue' && <>
               <div className="nt-tool-title"><Activity/><div><span>BANDWIDTH & QoS</span><h2>Simple Queue Generator</h2><p>Susun satu perintah Simple Queue untuk target pelanggan.</p></div></div>
