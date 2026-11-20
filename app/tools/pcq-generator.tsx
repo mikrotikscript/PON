@@ -99,7 +99,7 @@ export default function PcqGenerator(){
     const a=document.createElement('a');a.href=url;a.download='netforge-mikrotik-pcq-'+(mode==='tree'?'queue-tree':'simple-queue')+'.rsc';a.click();URL.revokeObjectURL(url);
   };
   return <>
-    <div className="nt-tool-title"><Router/><div><span>BANDWIDTH & QoS</span><h2>MikroTik PCQ Generator</h2><p>Generate konfigurasi PCQ untuk Queue Tree atau Simple Queue.</p></div></div>
+    <div className="nt-tool-title"><Router/><div><span>BANDWIDTH & QoS</span><h2>{mode==='simple'?'Simple Queue Generator':'PCQ Generator'}</h2><p>{mode==='simple'?'Generate konfigurasi Simple Queue untuk target subnet dengan pembagian bandwidth PCQ.':'Generate konfigurasi PCQ untuk Queue Tree dan pengaturan bandwidth per client.'}</p></div></div>
     <div className="nt-form-grid two">
       <label>Queue Option<select value={mode} onChange={e=>{setMode(e.target.value);setGenerated(false);}}><option value="tree">Queue Tree</option><option value="simple">Simple Queue</option></select></label>
       <label>Versi RouterOS<select value={version} onChange={e=>{setVersion(e.target.value);setGenerated(false);}}><option value="7">RouterOS 7.x</option><option value="6">RouterOS 6.49.x</option></select></label>
