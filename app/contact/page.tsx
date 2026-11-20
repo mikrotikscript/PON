@@ -16,7 +16,7 @@ export default function ContactPage() {
         <article><small><Mail size={14}/> E-MAIL SUPPORT</small><a href="mailto:nfntdigital@gmail.com">nfntdigital@gmail.com</a></article>
         <article><small><MessageCircle size={14}/> WHATSAPP / CONTACT PERSON</small><b>Irfann JT</b><a href="https://wa.me/6285187380500" target="_blank" rel="noreferrer">+62 851-8738-0500</a></article>
         <article><small><Clock3 size={14}/> WORKING HOURS</small><b>Online Support</b><p>Silakan hubungi melalui WhatsApp atau email untuk ketersediaan.</p></article>
-        <footer>© Copyright 2020-2026 NETFORGE - All Rights Reserved.<br/>Project By Irfann JT · Jakarta Capital Region & Bogor, Indonesia</footer>
+        <footer><div className="nf-footer-copy">© Copyright 2020-2026 NETFORGE - All Rights Reserved.<br/>Project By Irfann JT · Jakarta Capital Region & Bogor, Indonesia</div><a className="nf-hit-counter" href="https://hits.sh/mikrotikscript.github.io/PON/" target="_blank" rel="noreferrer" aria-label="NETFORGE site visit counter"><img src="https://hits.sh/mikrotikscript.github.io/PON.svg?style=flat-square&label=visits" alt="NETFORGE visits" loading="lazy"/></a></footer>
       </section>
     </main>
   );
