@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import PccGenerator from './pcc-generator';
 import BurstLimitCalculator from './burst-limit-calculator';
+import { recordToolUse } from './usage-counter';
 import {
   Activity, ArrowLeft, ArrowRight, Cable, Calculator, Check, Clipboard,
   Download, Gauge, Globe, Network, Router, Search, Shield, Wifi, Zap, Sun, Moon
@@ -165,10 +166,11 @@ add address=${lanNet} gateway=${dhcpGateway} dns-server=${dhcpDns}`;
 
   const scriptFor = (id: ToolId) => id === 'pcc' ? pccScript : id === 'queue' ? queueScript : dhcpScript;
   const copyText = async (text: string) => {
-    try { await navigator.clipboard.writeText(text); setCopied(true); window.setTimeout(() => setCopied(false), 1800); }
+    try { await navigator.clipboard.writeText(text); recordToolUse(); setCopied(true); window.setTimeout(() => setCopied(false), 1800); }
     catch { setCopied(false); alert('Clipboard tidak tersedia. Silakan salin manual dari kotak script.'); }
   };
   const downloadText = (filename: string, text: string) => {
+    recordToolUse();
     const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement('a');
