@@ -12,7 +12,7 @@ export default function BurstLimitCalculator() {
   const [name, setName] = useState('BURST-PELANGGAN');
   const [target, setTarget] = useState('192.168.88.10');
   const [upload, setUpload] = useState('3');
-  const [download, setDownload] = useState('5');
+  const [downloadMbps, setDownloadMbps] = useState('5');
   const [burstUp, setBurstUp] = useState('6');
   const [burstDown, setBurstDown] = useState('8');
   const [duration, setDuration] = useState('15');
@@ -21,7 +21,7 @@ export default function BurstLimitCalculator() {
   const [copied, setCopied] = useState(false);
 
   const result = useMemo(() => {
-    const values = [upload, download, burstUp, burstDown, duration].map(Number);
+    const values = [upload, downloadMbps, burstUp, burstDown, duration].map(Number);
     if (values.some(v => !Number.isFinite(v) || v <= 0)) return null;
     const [up, down, bUp, bDown, seconds] = values;
     if (bUp <= up || bDown <= down) return null;
@@ -38,7 +38,7 @@ export default function BurstLimitCalculator() {
       limitUpText: fmtK(up * 0.125), limitDownText: fmtK(down * 0.125),
       timeUpText: Number(timeUp.toFixed(2)) + 's', timeDownText: Number(timeDown.toFixed(2)) + 's',
     };
-  }, [upload, download, burstUp, burstDown, duration]);
+  }, [upload, downloadMbps, burstUp, burstDown, duration]);
 
   const error = !safeToken(name) ? 'Nama queue hanya boleh berisi huruf, angka, titik, garis bawah, titik dua, atau tanda hubung.'
     : !/^([0-9]{1,3}\.){3}[0-9]{1,3}(\/([0-9]|[12][0-9]|3[0-2]))?$/.test(target.trim()) ? 'Target harus berupa IPv4 atau CIDR.'
@@ -70,7 +70,7 @@ add name="${name.trim()}" target=${target.trim()} max-limit=${result.maxUp}/${re
       <label>Nama Simple Queue<input value={name} onChange={e => {setName(e.target.value); setGenerated(false);}}/></label>
       <label>Target IP / CIDR<input value={target} onChange={e => {setTarget(e.target.value); setGenerated(false);}}/></label>
       <label>Max Limit Upload (Mbps)<input type="number" min="0.01" step="0.1" value={upload} onChange={e => {setUpload(e.target.value); setGenerated(false);}}/></label>
-      <label>Max Limit Download (Mbps)<input type="number" min="0.01" step="0.1" value={download} onChange={e => {setDownload(e.target.value); setGenerated(false);}}/></label>
+      <label>Max Limit Download (Mbps)<input type="number" min="0.01" step="0.1" value={downloadMbps} onChange={e => {setDownloadMbps(e.target.value); setGenerated(false);}}/></label>
       <label>Burst Limit Upload (Mbps)<input type="number" min="0.01" step="0.1" value={burstUp} onChange={e => {setBurstUp(e.target.value); setGenerated(false);}}/></label>
       <label>Burst Limit Download (Mbps)<input type="number" min="0.01" step="0.1" value={burstDown} onChange={e => {setBurstDown(e.target.value); setGenerated(false);}}/></label>
       <label>Bonus Duration yang diinginkan (detik)<input type="number" min="0.1" step="0.1" value={duration} onChange={e => {setDuration(e.target.value); setGenerated(false);}}/></label>
