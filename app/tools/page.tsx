@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import PccGenerator from './pcc-generator';
 import NthGenerator from './nth-generator';
+import BandwidthMonitorGenerator from './bandwidth-monitor';
 import BurstLimitCalculator from './burst-limit-calculator';
 import { recordToolUse } from './usage-counter';
 import {
@@ -10,7 +11,7 @@ import {
   Download, Gauge, Globe, Network, Router, Search, Shield, Wifi, Zap, Sun, Moon
 } from 'lucide-react';
 
-type ToolId = 'subnet' | 'bandwidth' | 'optical' | 'pcc' | 'nth' | 'queue' | 'dhcp' | 'burst';
+type ToolId = 'subnet' | 'bandwidth' | 'optical' | 'pcc' | 'nth' | 'monitor' | 'queue' | 'dhcp' | 'burst';
 type ToolCard = { id: ToolId; title: string; desc: string; category: string; tags: string[] };
 
 const tools: ToolCard[] = [
@@ -19,6 +20,7 @@ const tools: ToolCard[] = [
   { id: 'optical', title: 'Optical Link Budget', desc: 'Estimasi daya terima optik dari TX, kabel, splice, konektor, dan splitter.', category: 'FTTH & PON', tags: ['fiber', 'optical', 'pon', 'ftth', 'redaman'] },
   { id: 'pcc', title: 'MikroTik PCC Load Balancing', desc: 'Buat template mangle dan routing PCC untuk multi-WAN RouterOS.', category: 'ROUTING & MIKROTIK', tags: ['mikrotik', 'pcc', 'load balance', 'routeros'] },
   { id: 'nth', title: 'MikroTik NTH Load Balancing', desc: 'Generator Every / Packet untuk distribusi koneksi baru multi-WAN.', category: 'ROUTING & MIKROTIK', tags: ['mikrotik', 'nth', 'every', 'packet', 'load balance', 'routeros'] },
+  { id: 'monitor', title: 'MikroTik Multi-ISP Bandwidth Monitor', desc: 'Generator monitor RX/TX dan estimasi kuota bulanan untuk banyak ISP.', category: 'MONITORING', tags: ['mikrotik', 'bandwidth', 'monitoring', 'quota', 'multi isp', 'rx', 'tx'] },
   { id: 'burst', title: 'MikroTik Burst Limit Calculator', desc: 'Hitung burst threshold, burst time, limit-at, dan buat script Simple Queue.', category: 'BANDWIDTH & QoS', tags: ['burst', 'burst limit', 'burst threshold', 'queue', 'qos'] },
   { id: 'queue', title: 'Simple Queue Generator', desc: 'Buat perintah Simple Queue untuk pelanggan atau segmen jaringan.', category: 'BANDWIDTH & QoS', tags: ['queue', 'simple queue', 'pcq', 'mikrotik'] },
   { id: 'dhcp', title: 'DHCP Pool Generator', desc: 'Buat konfigurasi IP pool dan DHCP network dasar untuk RouterOS.', category: 'IP & NETWORK', tags: ['dhcp', 'pool', 'mikrotik', 'routeros'] },
@@ -252,6 +254,7 @@ add address=${lanNet} gateway=${dhcpGateway} dns-server=${dhcpDns}`;
 
             {active === 'pcc' && <PccGenerator/>}
             {active === 'nth' && <NthGenerator/>}
+            {active === 'monitor' && <BandwidthMonitorGenerator/>}
 
             {active === 'burst' && <BurstLimitCalculator/>}
 
