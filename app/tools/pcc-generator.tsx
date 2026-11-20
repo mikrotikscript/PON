@@ -4,10 +4,12 @@ import { useMemo, useState } from 'react';
 import { Clipboard, Download, Router } from 'lucide-react';
 
 type Wan = { id: number; iface: string; gateway: string; weight: string };
-const seed: Wan[] = [
-  { id: 1, iface: 'ether1', gateway: '192.168.1.1', weight: '1' },
-  { id: 2, iface: 'ether2', gateway: '192.168.2.1', weight: '1' },
-];
+const seed: Wan[] = Array.from({ length: 8 }, (_, index) => ({
+  id: index + 1,
+  iface: 'ether' + (index + 1),
+  gateway: '192.168.' + (index + 1) + '.1',
+  weight: '1',
+}));
 const tokenOK = (v: string) => /^[a-zA-Z0-9_.:-]{1,32}$/.test(v.trim());
 const ipv4OK = (v: string) => {
   const parts = v.trim().split('.');
@@ -25,7 +27,7 @@ export default function PccGenerator() {
   const [lan, setLan] = useState('bridge');
   const [local, setLocal] = useState('192.168.88.0/24');
   const [wans, setWans] = useState<Wan[]>(seed);
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState(false);\n  const [generated, setGenerated] = useState(false);
   const selected = wans.slice(0, Number(count));
 
   const error = useMemo(() => {
@@ -120,10 +122,15 @@ export default function PccGenerator() {
         {mode === 'weighted' && <label>Bobot koneksi (1–16)<input type="number" min="1" max="16" value={w.weight} onChange={e => setWan(w.id, 'weight', e.target.value)}/></label>}
       </div>)}
     </div>
-    {mode === 'weighted' && <div className="nt-alert">Bobot contoh 2:1:1 menghasilkan empat bucket PCC: WAN pertama 50%, WAN kedua 25%, WAN ketiga 25% dari koneksi baru.</div>}
-    {error ? <div className="nt-alert">{error}</div> : <>
-      <div className="nt-alert">Perhatian: script menambahkan rule dan route baru; jangan impor berulang. Failover policy routing menggunakan gateway WAN alternatif dengan distance bertingkat dan check-gateway pada next-hop; ini bukan recursive monitoring end-to-end ke internet. Backup konfigurasi dan uji melalui Safe Mode sebelum produksi.</div>
-      <div className="nt-script-actions"><button onClick={copy}><Clipboard size={15}/>{copied ? 'Tersalin' : 'Salin Script'}</button><button className="nt-button-light" onClick={download}><Download size={15}/> Unduh .rsc</button></div>
+    {mode === 'weighted' && <div className="nt-alert">Atur bobot tiap WAN. Contoh 2:1:1 membagi koneksi baru dengan rasio perkiraan 50%:25%:25%.</div>}
+    {error && <div className="nt-alert">{error}</div>}
+    <div className="nt-script-actions">
+      <button onClick={() => setGenerated(true)} disabled={!!error}>Generate Script</button>
+      <button className="nt-button-light" onClick={copy} disabled={!generated || !!error}><Clipboard size={15}/>{copied ? 'Tersalin' : 'Salin Script'}</button>
+      <button className="nt-button-light" onClick={download} disabled={!generated || !!error}><Download size={15}/> Unduh .rsc</button>
+    </div>
+    {generated && !error && <>
+      <div className="nt-alert">Script dibuat untuk {count} WAN. Periksa gateway, interface, urutan mangle, dan route sebelum impor. Script menambahkan rule baru; jangan impor berulang. Failover memakai check-gateway pada next-hop, bukan recursive monitoring end-to-end. Backup konfigurasi dan uji melalui Safe Mode sebelum produksi.</div>
       <pre className="nt-code"><code>{script}</code></pre>
     </>}
   </>;
