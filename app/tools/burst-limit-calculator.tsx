@@ -38,14 +38,16 @@ export default function BurstLimitCalculator() {
     const thresholdDown = down * 0.75;
     const limitUp = up * 0.125;
     const limitDown = down * 0.125;
-    const durationUp = (thresholdUp * tUp) / bUp;
-    const durationDown = (thresholdDown * tDown) / bDown;
+    const burstTimeUp = (dUp * bUp) / thresholdUp;
+    const burstTimeDown = (dDown * bDown) / thresholdDown;
+    const durationUpActual = (thresholdUp * burstTimeUp) / bUp;
+    const durationDownActual = (thresholdDown * burstTimeDown) / bDown;
     return {
       maxUp: fmt(up), maxDown: fmt(down), burstUp: fmt(bUp), burstDown: fmt(bDown),
       thresholdUp: fmt(thresholdUp), thresholdDown: fmt(thresholdDown),
       limitUp: fmt(limitUp), limitDown: fmt(limitDown),
       timeUp: fmtDuration(burstTimeUp), timeDown: fmtDuration(burstTimeDown),
-      durationUp: fmtDuration(durationUp), durationDown: fmtDuration(durationDown),
+      durationUp: fmtDuration(durationUpActual), durationDown: fmtDuration(durationDownActual),
     };
   }, [upload, downloadMbps, burstUp, burstDown, durationUp, durationDown]);
 
