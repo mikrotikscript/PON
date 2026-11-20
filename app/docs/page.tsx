@@ -26,7 +26,7 @@ export default function DocsPage() {
       <header className="nf-info-header">
         <a href="/PON/tools/" className="nf-info-brand">NET<span>FORGE</span></a>
         <nav>
-          <a href="/PON/">HOME</a><a href="/PON/tools/">TOOLS</a><a href="/PON/price/">PRICE</a>
+          <a href="/PON/">HOME</a><a href="/PON/tools/">TOOLS</a>
           <a href="/PON/updates/">UPDATES</a><a className="active" href="/PON/docs/">DOCS</a><a href="/PON/contact/">CONTACT</a>
         </nav>
       </header>
