@@ -399,3 +399,13 @@
   .nt-tool-card{min-height:142px}
 }
 @media(prefers-reduced-motion:reduce){.nt-section-head>div h2{animation:none}}
+
+.nf-dns-domain-list{display:grid;gap:7px;margin:10px 0}
+.nf-dns-domain-row,.nf-dns-add-row{display:flex;align-items:center;gap:8px}
+.nf-dns-domain-row input,.nf-dns-add-row input{flex:1;min-width:0}
+.nf-dns-add-row{margin:10px 0 14px}
+.nf-dns-add-row button{white-space:nowrap}
+.nf-block-option{cursor:pointer;text-align:left;color:inherit;background:var(--nt-panel,rgba(255,255,255,.04));border:1px solid var(--nt-border,rgba(148,163,184,.22));border-radius:9px;padding:10px}
+.nf-block-option:hover{border-color:#f97316}
+.nf-block-option small{display:block;opacity:.7;margin-top:3px}
+@media(max-width:560px){.nf-dns-domain-row,.nf-dns-add-row{align-items:stretch}.nf-dns-domain-row button{padding-inline:8px}}
