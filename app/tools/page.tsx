@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import PccGenerator from './pcc-generator';
+import NthGenerator from './nth-generator';
 import BurstLimitCalculator from './burst-limit-calculator';
 import { recordToolUse } from './usage-counter';
 import {
@@ -9,7 +10,7 @@ import {
   Download, Gauge, Globe, Network, Router, Search, Shield, Wifi, Zap, Sun, Moon
 } from 'lucide-react';
 
-type ToolId = 'subnet' | 'bandwidth' | 'optical' | 'pcc' | 'queue' | 'dhcp' | 'burst';
+type ToolId = 'subnet' | 'bandwidth' | 'optical' | 'pcc' | 'nth' | 'queue' | 'dhcp' | 'burst';
 type ToolCard = { id: ToolId; title: string; desc: string; category: string; tags: string[] };
 
 const tools: ToolCard[] = [
@@ -17,6 +18,7 @@ const tools: ToolCard[] = [
   { id: 'bandwidth', title: 'Bandwidth Calculator', desc: 'Bagi kapasitas bandwidth berdasarkan jumlah pelanggan dan profil layanan.', category: 'BANDWIDTH & QoS', tags: ['bandwidth', 'speed', 'limit', 'qos'] },
   { id: 'optical', title: 'Optical Link Budget', desc: 'Estimasi daya terima optik dari TX, kabel, splice, konektor, dan splitter.', category: 'FTTH & PON', tags: ['fiber', 'optical', 'pon', 'ftth', 'redaman'] },
   { id: 'pcc', title: 'MikroTik PCC Load Balancing', desc: 'Buat template mangle dan routing PCC untuk multi-WAN RouterOS.', category: 'ROUTING & MIKROTIK', tags: ['mikrotik', 'pcc', 'load balance', 'routeros'] },
+  { id: 'nth', title: 'MikroTik NTH Load Balancing', desc: 'Generator Every / Packet untuk distribusi koneksi baru multi-WAN.', category: 'ROUTING & MIKROTIK', tags: ['mikrotik', 'nth', 'every', 'packet', 'load balance', 'routeros'] },
   { id: 'burst', title: 'MikroTik Burst Limit Calculator', desc: 'Hitung burst threshold, burst time, limit-at, dan buat script Simple Queue.', category: 'BANDWIDTH & QoS', tags: ['burst', 'burst limit', 'burst threshold', 'queue', 'qos'] },
   { id: 'queue', title: 'Simple Queue Generator', desc: 'Buat perintah Simple Queue untuk pelanggan atau segmen jaringan.', category: 'BANDWIDTH & QoS', tags: ['queue', 'simple queue', 'pcq', 'mikrotik'] },
   { id: 'dhcp', title: 'DHCP Pool Generator', desc: 'Buat konfigurasi IP pool dan DHCP network dasar untuk RouterOS.', category: 'IP & NETWORK', tags: ['dhcp', 'pool', 'mikrotik', 'routeros'] },
@@ -24,7 +26,7 @@ const tools: ToolCard[] = [
 
 const categories = ['SEMUA TOOLS', 'ROUTING & MIKROTIK', 'BANDWIDTH & QoS', 'HOTSPOT & PPPoE', 'IP & NETWORK', 'SECURITY & BACKUP', 'WIRELESS', 'FTTH & PON', 'MONITORING', 'DOWNLOAD CENTER'];
 const planned = [
-  { title: 'PCC / NTH / ECMP / Failover', category: 'ROUTING & MIKROTIK', desc: 'Generator routing multi-WAN dan failover.' },
+  { title: 'ECMP & Failover Generator', category: 'ROUTING & MIKROTIK', desc: 'Generator jalur multi-gateway dan failover otomatis.' },
   { title: 'NAT & Port Forwarding', category: 'ROUTING & MIKROTIK', desc: 'Generator dst-nat, src-nat, dan masquerade.' },
   { title: 'Hotspot User & Voucher', category: 'HOTSPOT & PPPoE', desc: 'Generator akun, voucher, dan profil hotspot.' },
   { title: 'PPPoE Secret Generator', category: 'HOTSPOT & PPPoE', desc: 'Pembuatan akun PPPoE secara massal.' },
@@ -249,6 +251,7 @@ add address=${lanNet} gateway=${dhcpGateway} dns-server=${dhcpDns}`;
             </>}
 
             {active === 'pcc' && <PccGenerator/>}
+            {active === 'nth' && <NthGenerator/>}
 
             {active === 'burst' && <BurstLimitCalculator/>}
 
