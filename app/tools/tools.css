@@ -285,3 +285,84 @@
 .nf-price-future b{color:#f97316!important}
 .nf-price-future p{font-size:12px;line-height:1.65;color:#cbd5e1}
 @media(max-width:760px){.nf-info-header{align-items:flex-start}.nf-info-header nav{gap:12px}.nf-main-nav{gap:13px}}
+
+/* Unified page proportions across Home, Tools, Updates, Docs and Contact */
+.nt-container,
+.pon-shell,
+.nf-info-header,
+.nf-info-card {
+  width: min(1120px, calc(100% - 40px));
+  max-width: 1120px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.nf-info-page {
+  box-sizing: border-box;
+  padding: 28px 20px 60px;
+}
+.nf-info-header {
+  min-height: 76px;
+  margin-top: 0;
+  margin-bottom: 22px;
+  padding: 16px 24px;
+}
+.nf-info-card {
+  box-sizing: border-box;
+  padding: 28px 30px;
+}
+.nf-info-card h1 {
+  font-size: clamp(20px, 2.2vw, 25px);
+  line-height: 1.25;
+}
+.nf-info-card article p,
+.nf-info-intro,
+.nf-doc-note {
+  max-width: 900px;
+  line-height: 1.7;
+}
+.nf-info-card article {
+  padding: 18px 20px;
+  margin: 14px 0;
+}
+.nf-info-card footer {
+  margin-top: 26px;
+}
+.nt-container {
+  margin-top: 26px;
+  margin-bottom: 36px;
+}
+.nt-hero {
+  padding: clamp(24px, 3vw, 36px);
+}
+.pon-shell {
+  margin-top: 26px;
+}
+@media (max-width: 760px) {
+  .nt-container,
+  .pon-shell,
+  .nf-info-header,
+  .nf-info-card {
+    width: calc(100% - 24px);
+  }
+  .nf-info-page {
+    padding: 14px 12px 36px;
+  }
+  .nf-info-header {
+    padding: 16px;
+    margin-bottom: 14px;
+  }
+  .nf-info-card {
+    padding: 22px 18px;
+  }
+}
+@media (max-width: 480px) {
+  .nt-container,
+  .pon-shell,
+  .nf-info-header,
+  .nf-info-card {
+    width: calc(100% - 18px);
+  }
+  .nf-info-card {
+    padding: 18px 14px;
+  }
+}
