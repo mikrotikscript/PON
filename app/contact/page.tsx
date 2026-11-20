@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <main className="nf-info-page">
-      <header className="nf-info-header"><a href="/PON/tools/" className="nf-info-brand">NET<span>FORGE</span></a><nav><a href="/PON/tools/">HOME</a><a href="/PON/updates/">UPDATES</a><a href="/PON/docs/">DOCS</a><a className="active" href="/PON/contact/">CONTACT</a></nav></header>
+      <header className="nf-info-header"><a href="/PON/tools/" className="nf-info-brand">NET<span>FORGE</span></a><nav><a href="/PON/">HOME</a><a href="/PON/tools/">TOOLS</a><a href="/PON/price/">PRICE</a><a href="/PON/updates/">UPDATES</a><a href="/PON/docs/">DOCS</a><a className="active" href="/PON/contact/">CONTACT</a></nav></header>
       <section className="nf-info-card">
         <div className="nf-info-eyebrow">CONTACT</div><h1>CONTACT PERSON</h1>
         <article><small><MapPin size={14}/> LOCATION / ADDRESS</small><b>NETFORGE</b><p>Jakarta Capital Region & Bogor, Indonesia</p></article>
