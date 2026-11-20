@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type ChangeEvent } from 'react';
 import { Clipboard, Download, Gauge, RotateCcw, Sparkles } from 'lucide-react';
 import { recordToolUse } from './usage-counter';
 
@@ -81,7 +81,7 @@ add name="${name.trim()}" target=${target.trim()} max-limit=${result.maxUp}/${re
     const url = URL.createObjectURL(new Blob([script], { type: 'text/plain;charset=utf-8' }));
     const a = document.createElement('a'); a.href = url; a.download = 'netforge-burst-limit.rsc'; a.click(); URL.revokeObjectURL(url);
   };
-  const edit = (setter: (v: string) => void) => (e: React.ChangeEvent<HTMLInputElement>) => { setter(e.target.value); setGenerated(false); setCopied(false); };
+  const edit = (setter: (v: string) => void) => (e: ChangeEvent<HTMLInputElement>) => { setter(e.target.value); setGenerated(false); setCopied(false); };
   const field = (label: string, value: string, setter: (v: string) => void, color: string) => (
     <label className="nf-burst-field"><span>{label}</span><input type="number" min="0.001" step="0.1" value={value} onChange={edit(setter)} style={{ color }}/></label>
   );
