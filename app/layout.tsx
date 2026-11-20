@@ -3,8 +3,8 @@ import './globals.css';
 import './tools/tools.css';
 
 export const metadata: Metadata = {
-  title: 'PON Calculator | FTTH & PON Tools',
-  description: 'Kalkulator pembagian splitter FBT dan PLC untuk jaringan FTTH.',
+  title: 'NETFORGE | Network Engineering Platform',
+  description: 'NETFORGE Network Engineering Platform — tools jaringan dan kalkulator redaman fiber optik PON.',
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
