@@ -56,3 +56,63 @@
 .nt-code{max-height:440px;overflow:auto;background:#222831;color:#e5e9ef;padding:16px;border-radius:10px;font:11px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre;tab-size:2}
 @media(max-width:850px){.nt-card-grid,.nt-roadmap-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.nt-form-grid.three{grid-template-columns:repeat(2,minmax(0,1fr))}.nt-results{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.pon-tools-float{right:12px;bottom:12px;padding:9px 12px}.nt-header{height:64px;padding:0 14px}.nt-brand b{font-size:16px}.nt-back{font-size:10px}.nt-container{width:calc(100% - 20px);margin:14px auto}.nt-hero{padding:22px 18px;border-radius:13px}.nt-hero-stats{gap:6px}.nt-hero-stats span{font-size:9px;padding:7px}.nt-card-grid,.nt-roadmap-grid,.nt-form-grid.two,.nt-form-grid.three,.nt-results,.nt-results.two,.nt-results.three{grid-template-columns:1fr}.nt-tool-card{min-height:175px}.nt-workspace{padding:15px}.nt-tool-title h2{font-size:20px}.nt-footer{flex-direction:column}.nt-script-actions{flex-direction:column}.nt-script-actions button{justify-content:center}}
+
+
+/* NETFORGE identity and theme system — scoped to Network Tools only */
+.nt-header{background:#111827;border-bottom:1px solid #263244}
+.nt-brand b{font-size:20px;letter-spacing:.045em}.nt-brand b span{color:#f97316}
+.nt-brand-icon{background:#f97316;color:#111827;border-radius:11px}
+.nt-header-actions{display:flex;align-items:center;gap:16px}
+.nt-theme-toggle{display:inline-flex;align-items:center;gap:7px;border:1px solid #39465a;background:#1f2937;color:#e5e7eb;padding:8px 11px;border-radius:9px;font-size:10px;font-weight:700;cursor:pointer}
+.nt-theme-toggle svg{color:#fb923c}
+.nt-back{color:#d1d5db}
+.nt-hero{background:radial-gradient(ellipse at 85% 10%,#334155 0%,transparent 40%),linear-gradient(125deg,#111827,#1f2937 68%,#273449);border:1px solid #354256;position:relative;overflow:hidden}
+.nt-hero:after{content:"NF";position:absolute;right:35px;bottom:-48px;font-size:190px;line-height:1;font-weight:900;letter-spacing:-.12em;color:#ffffff08;pointer-events:none}
+.nt-kicker{color:#fb923c}
+.nt-hero h1 span{color:#f97316}
+.nt-hero-stats span{border-color:#475569;background:#ffffff09}
+.nt-section-head span,.nt-card-category{color:#ea580c}
+.nt-tool-card:hover{border-color:#f97316}
+.nt-card-icon{background:#fff0e5;color:#ea580c}
+.nt-card-open{color:#ea580c}
+.nt-categories button.selected{background:#f97316;border-color:#f97316}
+.nt-tool-title>svg{background:#fff0e5;color:#ea580c}
+.nt-form-grid input:focus,.nt-form-grid select:focus{border-color:#f97316;box-shadow:0 0 0 3px #f973161c}
+.nt-script-actions button{background:#f97316;border-color:#f97316}
+.nt-optical-main strong,.nt-result b{color:#ea580c}
+.nt-footer{letter-spacing:.08em}
+.nt-page.nt-dark{background:#0b1120;color:#e5e7eb}
+.nt-dark .nt-searchbar,.nt-dark .nt-tool-card,.nt-dark .nt-workspace,.nt-dark .nt-section-head>b{background:#151e2e;border-color:#2b374a;color:#e5e7eb}
+.nt-dark .nt-searchbar input{color:#f3f4f6}
+.nt-dark .nt-searchbar button{background:#3a2418;color:#fdba74}
+.nt-dark .nt-categories button{background:#151e2e;border-color:#344155;color:#cbd5e1}
+.nt-dark .nt-categories button.selected{background:#f97316;border-color:#f97316;color:#111827}
+.nt-dark .nt-section-head h2,.nt-dark .nt-tool-card>b,.nt-dark .nt-tool-title h2{color:#f3f4f6}
+.nt-dark .nt-card-desc,.nt-dark .nt-tool-title p{color:#aab6c7}
+.nt-dark .nt-card-icon,.nt-dark .nt-tool-title>svg{background:#3a2418;color:#fb923c}
+.nt-dark .nt-roadmap-card{background:#111a29;border-color:#344155}
+.nt-dark .nt-roadmap-card>b{color:#e5e7eb}
+.nt-dark .nt-roadmap-card p{color:#9ca9bb}
+.nt-dark .nt-note{background:#2a211b;border-color:#654126;color:#f5cba8}
+.nt-dark .nt-footer{border-color:#2b374a;color:#8391a5}
+.nt-dark .nt-workspace{box-shadow:0 8px 24px #0003}
+.nt-dark .nt-backlink{color:#b6c2d2}
+.nt-dark .nt-form-grid label{color:#cbd5e1}
+.nt-dark .nt-form-grid input,.nt-dark .nt-form-grid select{background:#0e1726;border-color:#3a475b;color:#f3f4f6}
+.nt-dark .nt-result,.nt-dark .nt-optical-result{background:#101a2a;border-color:#2d3a4f}
+.nt-dark .nt-result small,.nt-dark .nt-optical-main small{color:#9aa8ba}
+.nt-dark .nt-alert{background:#332819;border-color:#765324;color:#f6d49c}
+.nt-dark .nt-disclaimer{color:#9aa8ba}
+.nt-dark .nt-script-actions .nt-button-light{background:#1c293b;color:#e5e7eb;border-color:#46546a}
+.nt-dark .nt-code{background:#080d16;border:1px solid #2a3547}
+.nt-dark .nt-live{color:#6ee7b7}
+.nt-dark .nt-hero-stats span{color:#d1d5db}
+.nt-light .nt-header{background:#fff;color:#111827;border-color:#e5e7eb}
+.nt-light .nt-brand,.nt-light .nt-back{color:#111827}
+.nt-light .nt-brand small{color:#64748b}
+.nt-light .nt-theme-toggle{background:#f8fafc;border-color:#dbe2ea;color:#334155}
+.nt-light .nt-hero{background:radial-gradient(ellipse at 85% 10%,#fff0e5 0%,transparent 40%),linear-gradient(125deg,#fff,#f8fafc 70%,#eef2f7);border-color:#e2e8f0;color:#111827}
+.nt-light .nt-hero p{color:#64748b}
+.nt-light .nt-hero-stats span{border-color:#dbe2ea;background:#ffffff;color:#475569}
+.nt-light .nt-hero-stats b{color:#111827}
+@media(max-width:560px){.nt-header-actions{gap:7px}.nt-theme-toggle{padding:8px}.nt-theme-toggle span{display:none}.nt-back{font-size:9px}.nt-hero:after{right:8px;font-size:120px}}
