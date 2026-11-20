@@ -114,7 +114,7 @@ export default function Home() {
     <main className={dark ? 'pon-app dark' : 'pon-app'}>
       <header className="pon-topbar">
         <a className="pon-brand" href="/PON/" aria-label="NETFORGE Home"><span className="pon-brand-icon"><svg viewBox="0 0 48 48" role="img" aria-label="NETFORGE mark"><path d="M8 34V14l16 20V14" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/><path d="M29 12c5 2 8 6 10 12M29 36c5-2 8-6 10-12" fill="none" stroke="#fff" strokeWidth="2.8" strokeLinecap="round"/><circle cx="39" cy="24" r="3" fill="#fff"/></svg></span><div><b>NET<span>FORGE</span></b><small>NETWORK ENGINEERING PLATFORM</small></div></a>
-        <button className="pon-theme" onClick={() => setDark(!dark)} aria-label="Ganti tema">{dark ? <Sun size={18}/> : <Moon size={18}/>}</button>
+        <nav className="nf-main-nav nf-pon-nav"><a href="/PON/tools/">TOOLS</a><a href="/PON/updates/">UPDATES</a><a href="/PON/docs/">DOCS</a><a href="/PON/contact/">CONTACT</a></nav><button className="pon-theme" onClick={() => setDark(!dark)} aria-label="Ganti tema">{dark ? <Sun size={18}/> : <Moon size={18}/>}</button>
       </header>
 
       <div className="pon-shell">
