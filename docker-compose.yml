@@ -1,0 +1,9 @@
+services:
+  pon-calculator:
+    build: .
+    container_name: pon-calculator
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
