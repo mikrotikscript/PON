@@ -41,10 +41,10 @@ export default function DocsPage() {
             <p>{section.body}</p>
           </article>
         ))}
-        <footer>
+        <footer><div className="nf-footer-copy">
           © Copyright 2020-2026 NETFORGE - All Rights Reserved.<br />
           Project By Irfann JT @ NETFORGE Tools · Jakarta Capital Region & Bogor, INDONESIA
-        </footer>
+        </div><a className="nf-hit-counter" href="https://hits.sh/mikrotikscript.github.io/PON/" target="_blank" rel="noreferrer" aria-label="NETFORGE site visit counter"><img src="https://hits.sh/mikrotikscript.github.io/PON.svg?style=flat-square&label=visits" alt="NETFORGE visits" loading="lazy"/></a></footer>
       </section>
     </main>
   );
