@@ -112,13 +112,13 @@ export default function Home() {
   return (
     <main className={dark ? 'pon-app dark' : 'pon-app'}>
       <header className="pon-topbar">
-        <div className="pon-brand"><span className="pon-brand-icon"><Waves size={20}/></span><div><b>PON<span>CALC</span></b><small>FTTH & PON TOOLS</small></div></div>
+        <a className="pon-brand" href="/PON/" aria-label="NETFORGE Home"><span className="pon-brand-icon"><svg viewBox="0 0 48 48" role="img" aria-label="NETFORGE mark"><path d="M8 34V14l16 20V14" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/><path d="M29 12c5 2 8 6 10 12M29 36c5-2 8-6 10-12" fill="none" stroke="#fff" strokeWidth="2.8" strokeLinecap="round"/><circle cx="39" cy="24" r="3" fill="#fff"/></svg></span><div><b>NET<span>FORGE</span></b><small>NETWORK ENGINEERING PLATFORM</small></div></a>
         <button className="pon-theme" onClick={() => setDark(!dark)} aria-label="Ganti tema">{dark ? <Sun size={18}/> : <Moon size={18}/>}</button>
       </header>
 
       <div className="pon-shell">
         <section className="pon-hero">
-          <div><div className="pon-eyebrow"><Zap size={13}/> PON CALCULATOR</div><h1>Kalkulator Redaman & Link Budget PON</h1><p>Bangun topologi FTTH, tambahkan komponen, dan hitung daya optik setiap titik secara otomatis.</p></div>
+          <div><div className="pon-eyebrow"><Zap size={13}/> NETFORGE · FTTH & PON MODULE</div><h1>Kalkulator Redaman & Link Budget PON</h1><p>Bangun topologi FTTH, tambahkan komponen, dan hitung daya optik setiap titik secara otomatis.</p></div>
           <nav className="pon-tabs">
             <button className={tab === 'topology' ? 'active' : ''} onClick={() => setTab('topology')}><Network size={15}/> Topologi</button>
             <button className={tab === 'splitter' ? 'active' : ''} onClick={() => setTab('splitter')}><Activity size={15}/> Splitter Pintar</button>
