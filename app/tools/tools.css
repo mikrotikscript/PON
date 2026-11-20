@@ -260,3 +260,28 @@
 .nf-footer-copy{min-width:0;flex:1}
 .nf-hit-counter{display:inline-flex;align-items:center;flex-shrink:0;text-decoration:none}
 .nf-hit-counter img{display:block;height:20px;max-width:130px}
+
+/* NETFORGE public website pricing and unified navigation */
+.nf-info-header{max-width:1040px}
+.nf-info-header nav{gap:clamp(10px,1.6vw,20px)}
+.nf-info-header nav a{white-space:nowrap}
+.nf-main-nav{gap:clamp(9px,1.25vw,16px)}
+.nf-main-nav a.active{color:#f97316}
+.nf-price-card{max-width:720px}
+.nf-price-plan{border:1px solid #f97316!important;background:#242424!important;padding:20px!important}
+.nf-price-plan-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.nf-price-plan-top span{display:flex;align-items:center;gap:8px;color:#f97316;font-size:11px;font-weight:800;letter-spacing:1px}
+.nf-price-free{background:#14532d;color:#bbf7d0;padding:5px 10px;border-radius:20px;font-size:10px}
+.nf-price-plan h2{margin:14px 0 2px;color:#f8fafc;font-size:22px}
+.nf-price-amount{font-size:34px;font-weight:800;color:#f97316;margin:5px 0}
+.nf-price-amount small{font-size:12px;color:#aab6c7;font-weight:500}
+.nf-price-plan>p{font-size:12px;color:#cbd5e1;line-height:1.6}
+.nf-price-plan ul{list-style:none;padding:0;margin:16px 0;display:grid;gap:11px}
+.nf-price-plan li{display:flex;align-items:center;gap:9px;color:#dbe3ed;font-size:12px}
+.nf-price-plan li svg{color:#22c55e;flex-shrink:0}
+.nf-price-cta{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#f97316;color:#111827;text-decoration:none;font-size:11px;font-weight:900;letter-spacing:.5px;padding:12px 16px;border-radius:7px;margin-top:4px}
+.nf-price-cta:hover{background:#fb923c}
+.nf-price-future{background:#292929!important;border:1px solid #4b5563!important}
+.nf-price-future b{color:#f97316!important}
+.nf-price-future p{font-size:12px;line-height:1.65;color:#cbd5e1}
+@media(max-width:760px){.nf-info-header{align-items:flex-start}.nf-info-header nav{gap:12px}.nf-main-nav{gap:13px}}
