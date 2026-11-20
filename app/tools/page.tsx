@@ -301,7 +301,7 @@ add address=${lanNet} gateway=${dhcpGateway} dns-server=${dhcpDns}`;
             <div className="nt-note"><Shield size={17}/> Semua generator berjalan lokal di browser. Script yang dihasilkan harus diperiksa dan diuji di lab / Safe Mode sebelum diterapkan ke router produksi.</div>
           </>
         )}
-        <footer className="nt-footer">NETFORGE · NETWORK ENGINEERING TOOLS <span>BUILD SMARTER NETWORKS.</span></footer>
+        <footer className="nt-footer"><div>© Copyright 2020-2026 - All Rights Reserved.<br/><span>Project By <strong>Irfann JT</strong> @ <strong>NETFORGE Tools</strong> · Jakarta Capital Region &amp; Bogor, INDONESIA</span></div><span>BUILD SMARTER NETWORKS.</span></footer>
       </div>
     </main>
   );
