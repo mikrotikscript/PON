@@ -2,12 +2,13 @@
 
 import { useMemo, useState } from 'react';
 import PccGenerator from './pcc-generator';
+import BurstLimitCalculator from './burst-limit-calculator';
 import {
   Activity, ArrowLeft, ArrowRight, Cable, Calculator, Check, Clipboard,
   Download, Gauge, Globe, Network, Router, Search, Shield, Wifi, Zap
 } from 'lucide-react';
 
-type ToolId = 'subnet' | 'bandwidth' | 'optical' | 'pcc' | 'queue' | 'dhcp';
+type ToolId = 'subnet' | 'bandwidth' | 'optical' | 'pcc' | 'queue' | 'dhcp' | 'burst';
 type ToolCard = { id: ToolId; title: string; desc: string; category: string; tags: string[] };
 
 const tools: ToolCard[] = [
@@ -15,6 +16,7 @@ const tools: ToolCard[] = [
   { id: 'bandwidth', title: 'Bandwidth Calculator', desc: 'Bagi kapasitas bandwidth berdasarkan jumlah pelanggan dan profil layanan.', category: 'BANDWIDTH & QoS', tags: ['bandwidth', 'speed', 'limit', 'qos'] },
   { id: 'optical', title: 'Optical Link Budget', desc: 'Estimasi daya terima optik dari TX, kabel, splice, konektor, dan splitter.', category: 'FTTH & PON', tags: ['fiber', 'optical', 'pon', 'ftth', 'redaman'] },
   { id: 'pcc', title: 'MikroTik PCC Load Balancing', desc: 'Buat template mangle dan routing PCC untuk multi-WAN RouterOS.', category: 'ROUTING & MIKROTIK', tags: ['mikrotik', 'pcc', 'load balance', 'routeros'] },
+  { id: 'burst', title: 'MikroTik Burst Limit Calculator', desc: 'Hitung burst threshold, burst time, limit-at, dan buat script Simple Queue.', category: 'BANDWIDTH & QoS', tags: ['burst', 'burst limit', 'burst threshold', 'queue', 'qos'] },
   { id: 'queue', title: 'Simple Queue Generator', desc: 'Buat perintah Simple Queue untuk pelanggan atau segmen jaringan.', category: 'BANDWIDTH & QoS', tags: ['queue', 'simple queue', 'pcq', 'mikrotik'] },
   { id: 'dhcp', title: 'DHCP Pool Generator', desc: 'Buat konfigurasi IP pool dan DHCP network dasar untuk RouterOS.', category: 'IP & NETWORK', tags: ['dhcp', 'pool', 'mikrotik', 'routeros'] },
 ];
@@ -245,6 +247,8 @@ add address=${lanNet} gateway=${dhcpGateway} dns-server=${dhcpDns}`;
 
             {active === 'pcc' && <PccGenerator/>}
 
+            {active === 'burst' && <BurstLimitCalculator/>}
+
             {active === 'queue' && <>
               <div className="nt-tool-title"><Activity/><div><span>BANDWIDTH & QoS</span><h2>Simple Queue Generator</h2><p>Susun satu perintah Simple Queue untuk target pelanggan.</p></div></div>
               <div className="nt-form-grid two">
@@ -285,7 +289,7 @@ add address=${lanNet} gateway=${dhcpGateway} dns-server=${dhcpDns}`;
             <div className="nt-section-head"><div><span>TOOLS SIAP DIGUNAKAN</span><h2>Native Network Calculators</h2></div><b>{filtered.length} tools</b></div>
             <div className="nt-card-grid">
               {filtered.map(t=><button className="nt-tool-card" key={t.id} onClick={()=>openTool(t.id)}>
-                <span className="nt-card-icon">{t.id==='subnet'?<Globe/>:t.id==='bandwidth'?<Gauge/>:t.id==='optical'?<Cable/>:t.id==='pcc'?<Router/>:t.id==='queue'?<Activity/>:<Network/>}</span>
+                <span className="nt-card-icon">{t.id==='subnet'?<Globe/>:t.id==='bandwidth'?<Gauge/>:t.id==='optical'?<Cable/>:t.id==='pcc'?<Router/>:t.id==='burst'?<Gauge/>:t.id==='queue'?<Activity/>:<Network/>}</span>
                 <span className="nt-card-category">{t.category}</span><b>{t.title}</b><span className="nt-card-desc">{t.desc}</span><span className="nt-card-open">Buka tool <ArrowRight size={14}/></span>
               </button>)}
             </div>
