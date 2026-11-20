@@ -417,3 +417,8 @@
 .nf-gmail-note li{margin:8px 0}
 .nf-gmail-note a{color:#f97316;text-decoration:underline;text-underline-offset:2px;overflow-wrap:anywhere}
 .nf-gmail-note p{margin:10px 0 0}
+
+.nt-hero{position:relative}
+.nt-routeros-logo{display:block;width:clamp(76px,9vw,112px);height:auto;max-height:112px;object-fit:contain;float:right;margin:0 0 12px 22px;border-radius:16px;filter:drop-shadow(0 8px 18px rgba(0,0,0,.18))}
+.nt-hero:after{content:"";display:block;clear:both}
+@media(max-width:560px){.nt-routeros-logo{width:68px;margin:0 0 8px 12px;border-radius:10px}.nt-hero h1{font-size:clamp(22px,7vw,32px)}}
