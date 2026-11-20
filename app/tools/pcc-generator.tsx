@@ -79,13 +79,13 @@ export default function PccGenerator() {
     let bucket = 0;
     rows.forEach(w => {
       for (let i = 0; i < w.weight; i++) {
-        out.push('add chain=prerouting in-interface="' + lan + '" src-address-list=!poncalc-local dst-address-list=!poncalc-local dst-address-type=!local connection-state=new connection-mark=no-mark per-connection-classifier=both-addresses-and-ports:' + total + '/' + bucket + ' action=mark-connection new-connection-mark="' + w.mark + '" passthrough=yes comment="PONCALC PCC ' + w.iface + ' ' + (bucket + 1) + '/' + total + '"');
+        out.push('add chain=prerouting in-interface="' + lan + '" dst-address-list=!poncalc-local dst-address-type=!local connection-state=new connection-mark=no-mark per-connection-classifier=both-addresses-and-ports:' + total + '/' + bucket + ' action=mark-connection new-connection-mark="' + w.mark + '" passthrough=yes comment="PONCALC PCC ' + w.iface + ' ' + (bucket + 1) + '/' + total + '"');
         bucket++;
       }
     });
     rows.forEach(w => out.push('add chain=prerouting in-interface="' + lan + '" connection-mark="' + w.mark + '" dst-address-list=!poncalc-local action=mark-routing new-routing-mark="' + w.table + '" passthrough=no comment="PONCALC route ' + w.iface + '"'));
     out.push('', '# Catatan: PCC membagi koneksi baru, bukan membagi satu sesi download ke banyak WAN.');
-    out.push('# Weighted PCC mengulang bucket sesuai bobot integer. Bobot 2:1 berarti rasio koneksi kira-kira 2:1.');
+    out.push('# Weighted PCC mengulang bucket sesuai bobot integer. Bobot 2:1 berarti rasio koneksi kira-kira 2:1.\n# Sumber trafik dipilih berdasarkan interface LAN, bukan mengecualikan alamat private; ini penting untuk klien RFC1918.');
     out.push('# Setiap policy table memiliki primary WAN dan backup WAN dengan distance bertingkat; main table juga memiliki failover.');
     out.push('# Gateway check-gateway hanya memeriksa next-hop; verifikasi reachability internet secara terpisah.');
     out.push('# Pastikan LAN subnet/address-list, gateway, interface dan urutan rule sesuai topologi.');
