@@ -409,3 +409,11 @@
 .nf-block-option:hover{border-color:#f97316}
 .nf-block-option small{display:block;opacity:.7;margin-top:3px}
 @media(max-width:560px){.nf-dns-domain-row,.nf-dns-add-row{align-items:stretch}.nf-dns-domain-row button{padding-inline:8px}}
+
+.nf-gmail-note{margin-top:18px;padding:14px 16px;border:1px solid var(--nt-border,rgba(148,163,184,.25));border-radius:10px;line-height:1.65}
+.nf-gmail-note h3{margin:0 0 4px;font-size:13px;font-weight:800;color:#f97316;letter-spacing:.02em}
+.nf-gmail-note-rule{font-size:11px;opacity:.7;margin-bottom:8px;overflow-wrap:anywhere}
+.nf-gmail-note ol{padding-left:20px;margin:8px 0}
+.nf-gmail-note li{margin:8px 0}
+.nf-gmail-note a{color:#f97316;text-decoration:underline;text-underline-offset:2px;overflow-wrap:anywhere}
+.nf-gmail-note p{margin:10px 0 0}
