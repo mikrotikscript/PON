@@ -192,7 +192,7 @@ add address=${lanNet} gateway=${dhcpGateway} dns-server=${dhcpDns}`;
     <main className={`nt-page nt-${theme}`}>
       <header className="nt-header">
         <a className="nt-brand" href="/PON/tools/" aria-label="NETFORGE Home"><span className="nt-brand-icon"><Zap size={21}/></span><span><b>NET<span>FORGE</span></b><small>NETWORK ENGINEERING TOOLS</small></span></a>
-        <nav className="nf-main-nav"><a href="/PON/tools/">HOME</a><a href="/PON/updates/">UPDATES</a><a href="/PON/docs/">DOCS</a><a href="/PON/contact/">CONTACT</a></nav><div className="nt-header-actions"><button className="nt-theme-toggle" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} aria-label={theme === 'dark' ? 'Aktifkan light mode' : 'Aktifkan dark mode'}>{theme === 'dark' ? <Sun size={16}/> : <Moon size={16}/>}<span>{theme === 'dark' ? 'Light mode' : 'Dark mode'}</span></button><a className="nt-back" href="/PON/"><ArrowLeft size={15}/> PON Calculator</a></div>
+        <nav className="nf-main-nav"><a href="/PON/">HOME</a><a className="active" href="/PON/tools/">TOOLS</a><a href="/PON/price/">PRICE</a><a href="/PON/updates/">UPDATES</a><a href="/PON/docs/">DOCS</a><a href="/PON/contact/">CONTACT</a></nav><div className="nt-header-actions"><button className="nt-theme-toggle" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} aria-label={theme === 'dark' ? 'Aktifkan light mode' : 'Aktifkan dark mode'}>{theme === 'dark' ? <Sun size={16}/> : <Moon size={16}/>}<span>{theme === 'dark' ? 'Light mode' : 'Dark mode'}</span></button><a className="nt-back" href="/PON/"><ArrowLeft size={15}/> PON Calculator</a></div>
       </header>
 
       <div className="nt-container">
