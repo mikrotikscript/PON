@@ -5,7 +5,7 @@ import PccGenerator from './pcc-generator';
 import BurstLimitCalculator from './burst-limit-calculator';
 import {
   Activity, ArrowLeft, ArrowRight, Cable, Calculator, Check, Clipboard,
-  Download, Gauge, Globe, Network, Router, Search, Shield, Wifi, Zap
+  Download, Gauge, Globe, Network, Router, Search, Shield, Wifi, Zap, Sun, Moon
 } from 'lucide-react';
 
 type ToolId = 'subnet' | 'bandwidth' | 'optical' | 'pcc' | 'queue' | 'dhcp' | 'burst';
@@ -63,6 +63,7 @@ export default function ToolsPage() {
   const [category, setCategory] = useState('SEMUA TOOLS');
   const [active, setActive] = useState<ToolId | null>(null);
   const [copied, setCopied] = useState(false);
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
 
   const [ip, setIp] = useState('192.168.1.1');
   const [prefix, setPrefix] = useState('24');
@@ -178,17 +179,17 @@ add address=${lanNet} gateway=${dhcpGateway} dns-server=${dhcpDns}`;
   const openTool = (id: ToolId) => { setActive(id); setCopied(false); window.scrollTo({ top: 0, behavior: 'smooth' }); };
 
   return (
-    <main className="nt-page">
+    <main className={`nt-page nt-${theme}`}>
       <header className="nt-header">
-        <a className="nt-brand" href="/PON/"><span className="nt-brand-icon"><Activity size={21}/></span><span><b>PON<span>CALC</span></b><small>NETWORK ENGINEERING TOOLS</small></span></a>
-        <a className="nt-back" href="/PON/"><ArrowLeft size={15}/> Kembali ke PONCALC</a>
+        <a className="nt-brand" href="/PON/tools/" aria-label="NETFORGE Home"><span className="nt-brand-icon"><Zap size={21}/></span><span><b>NET<span>FORGE</span></b><small>NETWORK ENGINEERING TOOLS</small></span></a>
+        <div className="nt-header-actions"><button className="nt-theme-toggle" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} aria-label={theme === 'dark' ? 'Aktifkan light mode' : 'Aktifkan dark mode'}>{theme === 'dark' ? <Sun size={16}/> : <Moon size={16}/>}<span>{theme === 'dark' ? 'Light mode' : 'Dark mode'}</span></button><a className="nt-back" href="/PON/"><ArrowLeft size={15}/> PON Calculator</a></div>
       </header>
 
       <div className="nt-container">
         <section className="nt-hero">
-          <div className="nt-kicker"><Zap size={14}/> IRFANNJT NETWORK TOOLKIT</div>
-          <h1>Network Engineering <span>Tools</span></h1>
-          <p>Kumpulan kalkulator dan generator konfigurasi jaringan yang berjalan langsung di browser.</p>
+          <div className="nt-kicker"><Zap size={14}/> BUILD SMARTER NETWORKS.</div>
+          <h1>Engineering your network.<br/><span>One tool at a time.</span></h1>
+          <p>Workspace teknis untuk kalkulasi, perencanaan, dan generator konfigurasi jaringan — praktis, presisi, langsung dari browser.</p>
           <div className="nt-hero-stats"><span><b>{tools.length}</b> Tools aktif</span><span><b>{categories.length - 1}</b> Kategori</span><span><b>RouterOS v6/v7</b> Template MikroTik</span></div>
         </section>
 
@@ -300,7 +301,7 @@ add address=${lanNet} gateway=${dhcpGateway} dns-server=${dhcpDns}`;
             <div className="nt-note"><Shield size={17}/> Semua generator berjalan lokal di browser. Script yang dihasilkan harus diperiksa dan diuji di lab / Safe Mode sebelum diterapkan ke router produksi.</div>
           </>
         )}
-        <footer className="nt-footer">PONCALC · NETWORK ENGINEERING TOOLS <span>© IRFANNJT – 087842457503</span></footer>
+        <footer className="nt-footer">NETFORGE · NETWORK ENGINEERING TOOLS <span>BUILD SMARTER NETWORKS.</span></footer>
       </div>
     </main>
   );
