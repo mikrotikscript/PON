@@ -63,9 +63,14 @@ export default function PccGenerator() {
       rows.forEach(w => out.push('add fib name="' + w.table + '"'));
     }
     out.push('', '/ip route');
-    rows.forEach(w => out.push(version === '7'
-      ? 'add dst-address=0.0.0.0/0 gateway="' + w.gateway + '" routing-table="' + w.table + '" check-gateway=ping comment="PONCALC policy ' + w.iface + '"'
-      : 'add dst-address=0.0.0.0/0 gateway="' + w.gateway + '" routing-mark="' + w.table + '" check-gateway=ping comment="PONCALC policy ' + w.iface + '"'));
+    rows.forEach(primary => {
+      rows.forEach((candidate, index) => {
+        const distance = candidate.iface === primary.iface ? 1 : index + 2;
+        out.push(version === '7'
+          ? 'add dst-address=0.0.0.0/0 gateway="' + candidate.gateway + '" routing-table="' + primary.table + '" distance=' + distance + ' check-gateway=ping comment="PONCALC ' + primary.iface + ' via ' + candidate.iface + '"'
+          : 'add dst-address=0.0.0.0/0 gateway="' + candidate.gateway + '" routing-mark="' + primary.table + '" distance=' + distance + ' check-gateway=ping comment="PONCALC ' + primary.iface + ' via ' + candidate.iface + '"');
+      });
+    });
     rows.forEach((w, i) => out.push('add dst-address=0.0.0.0/0 gateway="' + w.gateway + '" distance=' + (i + 1) + ' check-gateway=ping comment="PONCALC main failover ' + w.iface + '"'));
     out.push('', '/ip firewall mangle');
     out.push('add chain=prerouting in-interface="' + lan + '" dst-address-list=poncalc-local action=accept comment="PONCALC bypass local"');
@@ -81,7 +86,7 @@ export default function PccGenerator() {
     rows.forEach(w => out.push('add chain=prerouting in-interface="' + lan + '" connection-mark="' + w.mark + '" dst-address-list=!poncalc-local action=mark-routing new-routing-mark="' + w.table + '" passthrough=no comment="PONCALC route ' + w.iface + '"'));
     out.push('', '# Catatan: PCC membagi koneksi baru, bukan membagi satu sesi download ke banyak WAN.');
     out.push('# Weighted PCC mengulang bucket sesuai bobot integer. Bobot 2:1 berarti rasio koneksi kira-kira 2:1.');
-    out.push('# Default route main berjarak 1..N adalah failover sederhana, bukan recursive failover end-to-end.');
+    out.push('# Setiap policy table memiliki primary WAN dan backup WAN dengan distance bertingkat; main table juga memiliki failover.');
     out.push('# Gateway check-gateway hanya memeriksa next-hop; verifikasi reachability internet secara terpisah.');
     out.push('# Pastikan LAN subnet/address-list, gateway, interface dan urutan rule sesuai topologi.');
     return out.join('\n');
@@ -117,7 +122,7 @@ export default function PccGenerator() {
     </div>
     {mode === 'weighted' && <div className="nt-alert">Bobot contoh 2:1:1 menghasilkan empat bucket PCC: WAN pertama 50%, WAN kedua 25%, WAN ketiga 25% dari koneksi baru.</div>}
     {error ? <div className="nt-alert">{error}</div> : <>
-      <div className="nt-alert">Perhatian: script menambahkan rule dan route baru; jangan impor berulang. Failover default-route yang dibuat bersifat sederhana berdasarkan check-gateway pada next-hop, bukan recursive monitoring ke internet. Backup konfigurasi dan uji melalui Safe Mode sebelum produksi.</div>
+      <div className="nt-alert">Perhatian: script menambahkan rule dan route baru; jangan impor berulang. Failover policy routing menggunakan gateway WAN alternatif dengan distance bertingkat dan check-gateway pada next-hop; ini bukan recursive monitoring end-to-end ke internet. Backup konfigurasi dan uji melalui Safe Mode sebelum produksi.</div>
       <div className="nt-script-actions"><button onClick={copy}><Clipboard size={15}/>{copied ? 'Tersalin' : 'Salin Script'}</button><button className="nt-button-light" onClick={download}><Download size={15}/> Unduh .rsc</button></div>
       <pre className="nt-code"><code>{script}</code></pre>
     </>}
