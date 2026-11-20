@@ -1,101 +1,147 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { Clipboard, Download, Gauge } from 'lucide-react';
+import { Clipboard, Download, Gauge, RotateCcw, Sparkles } from 'lucide-react';
 import { recordToolUse } from './usage-counter';
 
-const numberOK = (v: string) => Number.isFinite(Number(v)) && Number(v) > 0;
-const fmtRate = (mbps: number) => mbps >= 1 ? (Number.isInteger(mbps) ? mbps.toFixed(0) : mbps.toFixed(2).replace(/0+$/, '').replace(/\.$/, '')) + 'M' : Math.round(mbps * 1000) + 'k';
-const fmtK = (mbps: number) => Math.round(mbps * 1000) + 'k';
+const fmt = (mbps: number) => {
+  if (mbps >= 1) return (Number.isInteger(mbps) ? String(mbps) : mbps.toFixed(3).replace(/0+$/, '').replace(/\\.$/, '')) + 'M';
+  return (mbps * 1000).toFixed(0) + 'K';
+};
+const fmtDuration = (seconds: number) => Number(seconds.toFixed(2)).toString();
 const safeToken = (v: string) => /^[a-zA-Z0-9_.:-]{1,32}$/.test(v.trim());
+const validTarget = (v: string) => {
+  const [ip, prefix] = v.trim().split('/');
+  const parts = ip.split('.');
+  return parts.length === 4 && parts.every(p => /^\\d{1,3}$/.test(p) && Number(p) <= 255)
+    && (prefix === undefined || (/^\\d{1,2}$/.test(prefix) && Number(prefix) <= 32));
+};
 
 export default function BurstLimitCalculator() {
   const [name, setName] = useState('BURST-PELANGGAN');
   const [target, setTarget] = useState('192.168.88.10');
   const [upload, setUpload] = useState('3');
   const [downloadMbps, setDownloadMbps] = useState('5');
-  const [burstUp, setBurstUp] = useState('6');
-  const [burstDown, setBurstDown] = useState('8');
-  const [duration, setDuration] = useState('15');
+  const [burstUp, setBurstUp] = useState('3');
+  const [burstDown, setBurstDown] = useState('5');
+  const [timeUp, setTimeUp] = useState('8');
+  const [timeDown, setTimeDown] = useState('8');
   const [priority, setPriority] = useState('8');
   const [generated, setGenerated] = useState(false);
   const [copied, setCopied] = useState(false);
 
   const result = useMemo(() => {
-    const values = [upload, downloadMbps, burstUp, burstDown, duration].map(Number);
-    if (values.some(v => !Number.isFinite(v) || v <= 0)) return null;
-    const [up, down, bUp, bDown, seconds] = values;
-    if (bUp <= up || bDown <= down) return null;
+    const v = [upload, downloadMbps, burstUp, burstDown, timeUp, timeDown].map(Number);
+    if (v.some(x => !Number.isFinite(x) || x <= 0)) return null;
+    const [up, down, bUp, bDown, tUp, tDown] = v;
     const thresholdUp = up * 0.75;
     const thresholdDown = down * 0.75;
-    const timeUp = (thresholdUp * seconds) / bUp;
-    const timeDown = (thresholdDown * seconds) / bDown;
+    const limitUp = up * 0.125;
+    const limitDown = down * 0.125;
+    const durationUp = (thresholdUp * tUp) / bUp;
+    const durationDown = (thresholdDown * tDown) / bDown;
     return {
-      thresholdUp, thresholdDown, timeUp, timeDown,
-      limitUp: up * 0.125, limitDown: down * 0.125,
-      maxUp: fmtRate(up), maxDown: fmtRate(down),
-      burstLimitUp: fmtRate(bUp), burstLimitDown: fmtRate(bDown),
-      thresholdUpText: fmtK(thresholdUp), thresholdDownText: fmtK(thresholdDown),
-      limitUpText: fmtK(up * 0.125), limitDownText: fmtK(down * 0.125),
-      timeUpText: Number(timeUp.toFixed(2)) + 's', timeDownText: Number(timeDown.toFixed(2)) + 's',
+      maxUp: fmt(up), maxDown: fmt(down), burstUp: fmt(bUp), burstDown: fmt(bDown),
+      thresholdUp: fmt(thresholdUp), thresholdDown: fmt(thresholdDown),
+      limitUp: fmt(limitUp), limitDown: fmt(limitDown),
+      timeUp: fmtDuration(tUp), timeDown: fmtDuration(tDown),
+      durationUp: fmtDuration(durationUp), durationDown: fmtDuration(durationDown),
     };
-  }, [upload, downloadMbps, burstUp, burstDown, duration]);
+  }, [upload, downloadMbps, burstUp, burstDown, timeUp, timeDown]);
 
-  const error = !safeToken(name) ? 'Nama queue hanya boleh berisi huruf, angka, titik, garis bawah, titik dua, atau tanda hubung.'
-    : !/^([0-9]{1,3}\.){3}[0-9]{1,3}(\/([0-9]|[12][0-9]|3[0-2]))?$/.test(target.trim()) ? 'Target harus berupa IPv4 atau CIDR.'
-    : !result ? 'Periksa nilai bandwidth. Burst Limit harus lebih besar daripada Max Limit.' 
+  const error = !safeToken(name)
+    ? 'Nama queue tidak valid. Gunakan huruf, angka, titik, _ : atau -.'
+    : !validTarget(target) ? 'Target harus berupa IPv4 atau CIDR yang valid.'
+    : !result ? 'Semua nilai bandwidth dan Burst Time harus lebih besar dari 0.'
     : !/^[1-8]$/.test(priority) ? 'Priority harus antara 1 (tertinggi) sampai 8 (terendah).' : '';
 
-  const script = result ? `# PONCALC - MIKROTIK BURST LIMIT
-# Rumus threshold = 75% Max Limit
-# Rumus Limit At = 12.5% Max Limit
-# Bonus Duration = (Threshold x Burst Time) / Burst Limit
+  const script = result ? `# NETFORGE - MIKROTIK BURST LIMIT CALCULATOR
+# Threshold = Max Limit x 3/4
+# Limit At = Max Limit x 1/8
+# Actual Burst Duration = (Burst Threshold x Burst Time) / Burst Limit
 /queue simple
-add name="${name.trim()}" target=${target.trim()} max-limit=${result.maxUp}/${result.maxDown} burst-limit=${result.burstLimitUp}/${result.burstLimitDown} burst-threshold=${result.thresholdUpText}/${result.thresholdDownText} burst-time=${result.timeUpText}/${result.timeDownText} limit-at=${result.limitUpText}/${result.limitDownText} priority=${priority}/${priority} comment="Generated by PONCALC"` : '';
+add name="${name.trim()}" target=${target.trim()} max-limit=${result.maxUp}/${result.maxDown} burst-limit=${result.burstUp}/${result.burstDown} burst-threshold=${result.thresholdUp}/${result.thresholdDown} burst-time=${result.timeUp}s/${result.timeDown}s limit-at=${result.limitUp}/${result.limitDown} priority=${priority}/${priority} comment="Generated by NETFORGE"` : '';
 
-  const hotspotRate = result ? `${result.maxDown}/${result.maxUp} ${result.burstLimitDown}/${result.burstLimitUp} ${result.thresholdDownText}/${result.thresholdUpText} ${result.timeDownText}/${result.timeUpText} ${priority} ${result.limitDownText}/${result.limitUpText}` : '';
+  const hotspotRate = result
+    ? `${result.maxDown}/${result.maxUp} ${result.burstDown}/${result.burstUp} ${result.thresholdDown}/${result.thresholdUp} ${result.timeDown}s/${result.timeUp}s ${priority} ${result.limitDown}/${result.limitUp}`
+    : '';
 
-  const copy = async (text: string) => {
-    try { await navigator.clipboard.writeText(text); setCopied(true); window.setTimeout(() => setCopied(false), 1500); }
+  const clear = () => {
+    setName('BURST-PELANGGAN'); setTarget('192.168.88.10');
+    setUpload('3'); setDownloadMbps('5'); setBurstUp('3'); setBurstDown('5');
+    setTimeUp('8'); setTimeDown('8'); setPriority('8');
+    setGenerated(false); setCopied(false);
+  };
+  const generate = () => { if (!error) { setGenerated(true); setCopied(false); recordToolUse(); } };
+  const copy = async (value: string) => {
+    try { await navigator.clipboard.writeText(value); setCopied(true); window.setTimeout(() => setCopied(false), 1500); }
     catch { setCopied(false); alert('Clipboard tidak tersedia. Silakan salin manual.'); }
   };
   const download = () => {
-    const blob = new Blob([script], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = 'poncalc-burst-limit.rsc'; a.click(); URL.revokeObjectURL(url);
+    const url = URL.createObjectURL(new Blob([script], { type: 'text/plain;charset=utf-8' }));
+    const a = document.createElement('a'); a.href = url; a.download = 'netforge-burst-limit.rsc'; a.click(); URL.revokeObjectURL(url);
   };
+  const edit = (setter: (v: string) => void) => (e: React.ChangeEvent<HTMLInputElement>) => { setter(e.target.value); setGenerated(false); setCopied(false); };
+  const field = (label: string, value: string, setter: (v: string) => void, color: string) => (
+    <label className="nf-burst-field"><span>{label}</span><input type="number" min="0.001" step="0.1" value={value} onChange={edit(setter)} style={{ color }}/></label>
+  );
 
-  return <>
-    <div className="nt-tool-title"><Gauge/><div><span>BANDWIDTH & QoS</span><h2>MikroTik Burst Limit Calculator</h2><p>Hitung Burst Threshold, Burst Time, Limit At, dan hasil konfigurasi Simple Queue.</p></div></div>
-    <div className="nt-form-grid two">
-      <label>Nama Simple Queue<input value={name} onChange={e => {setName(e.target.value); setGenerated(false);}}/></label>
-      <label>Target IP / CIDR<input value={target} onChange={e => {setTarget(e.target.value); setGenerated(false);}}/></label>
-      <label>Max Limit Upload (Mbps)<input type="number" min="0.01" step="0.1" value={upload} onChange={e => {setUpload(e.target.value); setGenerated(false);}}/></label>
-      <label>Max Limit Download (Mbps)<input type="number" min="0.01" step="0.1" value={downloadMbps} onChange={e => {setDownloadMbps(e.target.value); setGenerated(false);}}/></label>
-      <label>Burst Limit Upload (Mbps)<input type="number" min="0.01" step="0.1" value={burstUp} onChange={e => {setBurstUp(e.target.value); setGenerated(false);}}/></label>
-      <label>Burst Limit Download (Mbps)<input type="number" min="0.01" step="0.1" value={burstDown} onChange={e => {setBurstDown(e.target.value); setGenerated(false);}}/></label>
-      <label>Bonus Duration yang diinginkan (detik)<input type="number" min="0.1" step="0.1" value={duration} onChange={e => {setDuration(e.target.value); setGenerated(false);}}/></label>
-      <label>Priority (1 tertinggi – 8 terendah)<select value={priority} onChange={e => {setPriority(e.target.value); setGenerated(false);}}>{Array.from({length:8},(_,i)=><option key={i+1} value={i+1}>{i+1}</option>)}</select></label>
+  return <div className="nf-burst">
+    <div className="nt-tool-title"><Gauge/><div><span>BANDWIDTH & QoS</span><h2>MikroTik Burst Limit Calculator</h2><p>Hitung parameter Burst untuk Simple Queue, Queue Tree, Hotspot, dan PPPoE.</p></div></div>
+    <div className="nf-burst-grid">
+      <section className="nf-burst-inputs">
+        <div className="nf-burst-columns">
+          <div className="nf-burst-direction">
+            <h3>TARGET UPLOAD</h3>
+            {field('Max Limit (K/M)', upload, setUpload, '#16a34a')}
+            {field('Burst Limit (K/M)', burstUp, setBurstUp, '#0284c7')}
+            {field('Actual Burst Time (s)', timeUp, setTimeUp, '#e11d48')}
+            {result && <div className="nf-burst-duration"><b>Actual Burst Time Duration:</b><br/>({result.thresholdUp} × {result.timeUp}s) / {result.burstUp} = <strong>{result.durationUp} sec.</strong><br/>Burst {result.maxUp} to {result.burstUp} for {result.durationUp} sec.</div>}
+          </div>
+          <div className="nf-burst-direction">
+            <h3>TARGET DOWNLOAD</h3>
+            {field('Max Limit (K/M)', downloadMbps, setDownloadMbps, '#16a34a')}
+            {field('Burst Limit (K/M)', burstDown, setBurstDown, '#0284c7')}
+            {field('Actual Burst Time (s)', timeDown, setTimeDown, '#e11d48')}
+            {result && <div className="nf-burst-duration"><b>Actual Burst Time Duration:</b><br/>({result.thresholdDown} × {result.timeDown}s) / {result.burstDown} = <strong>{result.durationDown} sec.</strong><br/>Burst {result.maxDown} to {result.burstDown} for {result.durationDown} sec.</div>}
+          </div>
+        </div>
+        <div className="nf-burst-formula"><b>Actual Burst Time Formula:</b><div className="nf-burst-formula-line">Actual Burst Time = (Burst Threshold × Burst Time) / Burst Limit</div><small>Burst Threshold = Max Limit × 3/4<br/>Limit At = Max Limit × 1/8<br/>K = Kbps · M = Mbps · 1000 Kbps = 1 Mbps</small></div>
+        <div className="nf-burst-extra">
+          <label>Nama Queue<input value={name} onChange={edit(setName)}/></label>
+          <label>Target IP / CIDR<input value={target} onChange={edit(setTarget)}/></label>
+          <label>Priority<select value={priority} onChange={e=>{setPriority(e.target.value);setGenerated(false);}}>{Array.from({length:8},(_,i)=><option key={i+1} value={i+1}>{i+1}</option>)}</select></label>
+        </div>
+      </section>
+      <section className="nf-burst-output">
+        <div className="nf-burst-table-title">BURST LIMIT FOR <b>QUEUE SIMPLE OR QUEUE TREE</b></div>
+        <table>
+          <thead><tr><th>TAB GENERAL</th><th>UPLOAD</th><th>DOWNLOAD</th></tr></thead>
+          <tbody>
+            <tr><td>Max Limit</td><td>{result?.maxUp ?? '—'}</td><td>{result?.maxDown ?? '—'}</td></tr>
+            <tr><td>Burst Limit</td><td>{result?.burstUp ?? '—'}</td><td>{result?.burstDown ?? '—'}</td></tr>
+            <tr><td>Burst Threshold</td><td>{result?.thresholdUp ?? '—'}</td><td>{result?.thresholdDown ?? '—'}</td></tr>
+            <tr><td>Burst Time</td><td>{result?.timeUp ?? '—'}</td><td>{result?.timeDown ?? '—'}</td></tr>
+            <tr className="nf-burst-advanced"><th>TAB ADVANCED</th><th>UPLOAD</th><th>DOWNLOAD</th></tr>
+            <tr><td>Limit At</td><td>{result?.limitUp ?? '—'}</td><td>{result?.limitDown ?? '—'}</td></tr>
+            <tr><td>Priority</td><td>{priority}</td><td>{priority}</td></tr>
+          </tbody>
+        </table>
+        <div className="nf-burst-rate-title">RATE LIMIT FOR <b>HOTSPOT OR PPPOE</b></div>
+        <div className="nf-burst-rate">{hotspotRate || 'Isi parameter untuk melihat Rate Limit'}</div>
+        <div className="nf-burst-actions">
+          <button onClick={generate} disabled={!!error}><Sparkles size={15}/> Generate</button>
+          <button className="secondary" onClick={clear}><RotateCcw size={15}/> Clear</button>
+          <button className="secondary" onClick={()=>copy(hotspotRate)} disabled={!generated}><Clipboard size={15}/>{copied?'Copied':'Copy'}</button>
+        </div>
+        {error && <p className="nf-burst-error">{error}</p>}
+      </section>
     </div>
-    {result && !error ? <>
-      <div className="nt-section-head" style={{marginTop:20}}><div><span>CALCULATION RESULT</span><h2>Hasil Burst Limit</h2></div></div>
-      <div className="nt-results">
-        {[['Burst Threshold Upload',result.thresholdUpText],['Burst Threshold Download',result.thresholdDownText],['Burst Time Upload',result.timeUpText],['Burst Time Download',result.timeDownText],['Limit At Upload',result.limitUpText],['Limit At Download',result.limitDownText]].map(([label,value])=><div className="nt-result" key={label}><small>{label}</small><b>{value}</b></div>)}
-      </div>
-      <div className="nt-alert">Rumus mengikuti parameter kalkulator referensi: Threshold = 75% Max Limit, Limit At = 12,5% Max Limit, dan Burst Time dihitung agar Bonus Duration tercapai. Pastikan kebutuhan queue dan satuan RouterOS sesuai.</div>
-    </> : <div className="nt-alert">{error || 'Masukkan parameter bandwidth yang valid.'}</div>}
-    <div className="nt-script-actions">
-      <button onClick={() => { setGenerated(true); recordToolUse(); }} disabled={!!error}>Generate Script</button>
-      <button className="nt-button-light" onClick={() => copy(script)} disabled={!generated || !!error}><Clipboard size={15}/>{copied ? 'Tersalin' : 'Salin Script'}</button>
-      <button className="nt-button-light" onClick={download} disabled={!generated || !!error}><Download size={15}/> Unduh .rsc</button>
-    </div>
-    {generated && !error && result && <>
-      <div className="nt-section-head"><div><span>ROUTEROS SIMPLE QUEUE</span><h2>Script MikroTik</h2></div></div>
+    {generated && <div className="nf-burst-generated">
+      <div className="nt-section-head"><div><span>ROUTEROS SIMPLE QUEUE</span><h2>Generated MikroTik Script</h2></div></div>
       <pre className="nt-code"><code>{script}</code></pre>
-      <div className="nt-section-head"><div><span>HOTSPOT / PPPoE</span><h2>Rate Limit String</h2></div></div>
-      <pre className="nt-code"><code>{hotspotRate}</code></pre>
-      <div className="nt-script-actions"><button className="nt-button-light" onClick={() => copy(hotspotRate)}><Clipboard size={15}/>Salin Rate Limit</button></div>
-    </>}
-    <p className="nt-disclaimer">Perhitungan ini adalah preset formula yang dapat disesuaikan untuk kebutuhan jaringan. Uji di lab dan verifikasi perilaku burst pada RouterOS sebelum diterapkan ke pelanggan produksi.</p>
-  </>;
+      <div className="nt-script-actions"><button className="nt-button-light" onClick={()=>copy(script)}><Clipboard size={15}/> {copied?'Tersalin':'Copy Script'}</button><button className="nt-button-light" onClick={download}><Download size={15}/> Download .rsc</button></div>
+    </div>}
+    <p className="nt-disclaimer">Hasil mengikuti formula yang ditampilkan pada kalkulator. Actual Burst Time Duration adalah estimasi matematis; verifikasi parameter Burst pada dokumentasi dan RouterOS sebelum diterapkan ke jaringan produksi.</p>
+  </div>;
 }
